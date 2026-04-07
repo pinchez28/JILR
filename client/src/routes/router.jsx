@@ -7,10 +7,11 @@ import LiveRadio from '../pages/Radio/LiveRadio';
 import Programs from '../pages/Programs/Programs';
 import Prophesies from '../pages/prophesies/Prophesies';
 import Events from '../pages/Events/Events';
-import Teachings from '../pages/Teachings/Teachings';
+import Teachings from '../pages/Videos/Videos';
 import Contact from '../pages/Contact/Contact';
 import About from '../pages/About/About';
 import Videos from '../pages/Videos/Videos';
+import Testimonies from '../pages/Testimonies/Testimonies';
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
           <Route path='/contact' element={<Contact />} />
           <Route path='/about' element={<About />} />
           <Route path='/videos' element={<Videos />} />
+          <Route path='/testimonies' element={<Testimonies />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>

@@ -1,15 +1,42 @@
 import { useEffect, useRef, useState } from 'react';
-import { Play, Pause, Radio } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
+
+import { radioApi } from '@/api/radio';
+import {
+  showSuccess,
+  showError,
+  showLoading,
+  closeAlert,
+  showInfo,
+} from '@/utils/alerts';
+
+import Swal from 'sweetalert2';
 
 const STREAM_URL = 'https://s3.radio.co/s97f38db97/listen';
 
 const RadioPlayer = () => {
   const audioRef = useRef(null);
-  const mediaRecorderRef = useRef(null);
-  const chunksRef = useRef([]);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
+  const [lastRecordingId, setLastRecordingId] = useState(null);
+
+  // 🔥 NEW (timer state)
+  const [maxDuration, setMaxDuration] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  // 🔥 Generate session ID (multi-user support)
+  useEffect(() => {
+    let id = localStorage.getItem('radio_session_id');
+
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem('radio_session_id', id);
+    }
+
+    setSessionId(id);
+  }, []);
 
   // autoplay
   useEffect(() => {
@@ -38,43 +65,103 @@ const RadioPlayer = () => {
     }
   };
 
-  // 🎙 START RECORDING
-  const startRecording = () => {
-    const audio = audioRef.current;
+  // ▶ START RECORDING
+  const startRecording = async () => {
+    if (!sessionId) return;
 
-    if (!audio) return;
+    showLoading('Starting recording...');
 
-    const stream = audio.captureStream(); // 🔥 key trick
-    const recorder = new MediaRecorder(stream);
+    const data = await radioApi.startRecording(sessionId);
 
-    chunksRef.current = [];
+    closeAlert();
 
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) {
-        chunksRef.current.push(e.data);
-      }
-    };
+    if (data.error) {
+      showError(data.error);
+      return;
+    }
 
-    recorder.onstop = () => {
-      const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'radio-recording.webm';
-      a.click();
-    };
-
-    recorder.start();
-    mediaRecorderRef.current = recorder;
     setIsRecording(true);
+
+    const seconds = data.max_minutes * 60;
+    setMaxDuration(seconds);
+    setTimeLeft(seconds);
+
+    showSuccess(
+      'Recording Started',
+      `Max duration: ${data.max_minutes} minutes`,
+    );
   };
+
+  // 🔥 TIMER EFFECT
+  useEffect(() => {
+    if (!isRecording) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          stopRecording(); // auto stop
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isRecording]);
 
   // ⏹ STOP RECORDING
-  const stopRecording = () => {
-    mediaRecorderRef.current?.stop();
+  const stopRecording = async () => {
+    showLoading('Stopping recording...');
+
+    const data = await radioApi.stopRecording(sessionId);
+
+    closeAlert();
+
     setIsRecording(false);
+
+    if (data.error) {
+      showError(data.error);
+      return;
+    }
+
+    setLastRecordingId(data.recording_id);
+
+    const result = await Swal.fire({
+      title: 'Download Recording?',
+      text: `Size ~${data.size_mb} MB`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Download',
+    });
+
+    if (result.isConfirmed) {
+      downloadRecording(data.recording_id);
+    }
   };
+
+  // ⬇ DOWNLOAD
+  const downloadRecording = (id) => {
+    const url = radioApi.getDownloadUrl(id);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.click();
+
+    showInfo('Download Started', 'Your file is downloading...');
+  };
+
+  // 🔥 FORMAT TIME
+  const formatTime = (sec) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  };
+
+  // 🔥 PROGRESS %
+  const progress = maxDuration
+    ? ((maxDuration - timeLeft) / maxDuration) * 100
+    : 0;
 
   return (
     <>
@@ -96,7 +183,7 @@ const RadioPlayer = () => {
             {isPlaying ? <Pause /> : <Play />}
           </button>
 
-          {/* RECORD */}
+          {/* RECORD / STOP */}
           {!isRecording ? (
             <button
               onClick={startRecording}
@@ -111,6 +198,32 @@ const RadioPlayer = () => {
             >
               Stop
             </button>
+          )}
+
+          {/* RETRY */}
+          {lastRecordingId && !isRecording && (
+            <button
+              onClick={() => downloadRecording(lastRecordingId)}
+              className='px-3 py-2 bg-blue-600 text-white rounded-lg'
+            >
+              Retry
+            </button>
+          )}
+
+          {/* TIMER + PROGRESS */}
+          {isRecording && (
+            <div className='flex flex-col gap-2 w-40'>
+              <div className='text-xs font-semibold text-center'>
+                {formatTime(timeLeft)}
+              </div>
+
+              <div className='w-full h-2 bg-gray-300 rounded-full overflow-hidden'>
+                <div
+                  className='h-full bg-red-500 transition-all'
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
           )}
 
           {/* LABEL */}
