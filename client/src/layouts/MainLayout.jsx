@@ -1,5 +1,8 @@
+import Footer from '../components/layout/Footer';
 import Navbar from '../components/layout/Navbar';
 import RadioPlayer from '../pages/Radio/LiveRadio';
+
+import { Outlet } from 'react-router-dom';
 
 const MainLayout = ({ children }) => {
   return (
@@ -19,9 +22,10 @@ const MainLayout = ({ children }) => {
         >
           <Navbar /> {/* Main Navbar, will be transparent on Home */}
           <main className='flex-1 mx-auto px-4 sm:px-6 lg:px-0 py-0'>
-            {children}
+            {<Outlet />} {/* Render matched route component */}
           </main>
           <RadioPlayer />
+          <Footer />
         </div>
       </div>
     </div>

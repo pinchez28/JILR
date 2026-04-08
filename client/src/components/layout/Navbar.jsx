@@ -1,91 +1,107 @@
 import { Link, useLocation } from 'react-router-dom';
-import ThemeToggle from './ThemeToggle';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import logo from '../../assets/logo.png';
 
-const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'Prophesies', path: '/prophesies' },
-  { name: 'Events', path: '/events' },
-  { name: 'Teachings', path: '/teachings' },
-  { name: 'Testimonies', path: '/testimonies' },
-];
-
 const Navbar = () => {
-  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation(); // 🔥 Get current path
+
+  // Helper to check active link
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className='bg-[#0b1e3A] dark:bg-[#0F1C2B] shadow-lg  z-50 transition-colors duration-300 fixed top-0 left-0 right-0'>
-      <div className='container mx-auto flex items-center justify-between h-20 px-4 md:px-6 '>
-        {/* Logo and Title */}
-        <div className='flex items-center gap-3'>
-          <img src={logo} alt='Logo' className='h-12 md:h-16 w-auto' />
-          <h1 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-600'>
-            Jesus Is LORD Radio
+    <nav className='bg-[#0b1e3A] text-white w-full fixed top-0 left-0 z-50 shadow-lg'>
+      {/* Desktop Layout */}
+      <div className='hidden md:flex flex-col items-center py-4 px-6 space-y-6 max-w-6xl mx-auto'>
+        {/* Logo + Title */}
+        <div className='flex flex-col items-center text-center'>
+          <img
+            src={logo}
+            alt='Logo'
+            className='h-16 md:h-20 lg:h-24 w-auto mb-2'
+          />
+          <h1 className='font-extrabold text-lg md:text-xl lg:text-2xl xl:text-3xl text-yellow-500 drop-shadow-[2px_2px_0px_#000]'>
+            JESUS IS LORD RADIO
           </h1>
+          <p className='text-xs md:text-sm lg:text-base text-gray-300 mt-1'>
+            Broadcasting Live 153.9 FM Nakuru Kenya
+          </p>
         </div>
 
-        {/* Desktop Menu */}
-        <div className='hidden md:flex flex-1 justify-center items-center gap-6 lg:gap-10'>
-          {navLinks.map((link) => {
-            const isActive = location.pathname === link.path;
-            return (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`
-                  relative text-white font-semibold
-                  text-sm sm:text-base md:text-lg lg:text-xl
-                  hover:text-yellow-400 transition
-                  after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-400 after:transition-all
-                  ${isActive ? 'after:w-full' : 'after:w-0'}
-                  hover:after:w-full
-                `}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
+        {/* Links Row */}
+        <div className='flex justify-between w-full text-sm md:text-base lg:text-lg'>
+          {[
+            { to: '/', label: 'Home' },
+            { to: '/prophesies', label: 'Prophesies' },
+            { to: '/events', label: 'Events' },
+            { to: '/testimonies', label: 'Healings & Testimonies' },
+            { to: '/gallery', label: 'Gallery' },
+            { to: '/contact', label: 'Contact Us' },
+            { to: '/about', label: 'About' },
+          ].map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`font-extrabold transition ${
+                isActive(link.to)
+                  ? 'text-yellow-400 underline decoration-yellow-400'
+                  : 'hover:text-yellow-400'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
+      </div>
 
-        {/* Right Side: Always visible theme toggle & hamburger */}
-        <div className='flex items-center gap-4'>
-          <div className='transform scale-125 md:scale-150 text-white hover:text-yellow-800 transition-colors'>
-            <ThemeToggle />
-          </div>
-          {/* Hamburger for mobile */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className='focus:outline-none text-white md:hidden'
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+      {/* Mobile Layout */}
+      <div className='md:hidden flex items-center justify-between px-4 py-3'>
+        <div className='flex items-center gap-2'>
+          <img src={logo} alt='Logo' className='h-10 w-auto' />
+          <span className='text-sm font-bold text-yellow-500'>JIL Radio</span>
         </div>
+        <button onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X size={26} /> : <Menu size={26} />}
+        </button>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className='md:hidden bg-[#1D3A5F] dark:bg-[#0F1C2B] flex flex-col items-center py-6 space-y-4 transition-all'>
-          {navLinks.map((link) => {
-            const isActive = location.pathname === link.path;
-            return (
+        <div className='md:hidden bg-[#1D3A5F] flex flex-col items-center text-center py-6 space-y-5'>
+          <img src={logo} alt='Logo' className='h-14 w-auto' />
+          <h1 className='text-lg font-bold text-yellow-500'>
+            JESUS IS LORD RADIO
+          </h1>
+          <p className='text-xs text-gray-300'>
+            Broadcasting Live 153.9 FM Nakuru Kenya
+          </p>
+
+          {/* Mobile Links */}
+          <div className='flex flex-col gap-3 text-base'>
+            {[
+              { to: '/', label: 'Home' },
+              { to: '/prophesies', label: 'Prophesies' },
+              { to: '/events', label: 'Events' },
+              { to: '/about', label: 'About' },
+              { to: '/testimonies', label: 'Healings & Testimonies' },
+              { to: '/gallery', label: 'Gallery' },
+              { to: '/contact', label: 'Contact Us' },
+            ].map((link) => (
               <Link
-                key={link.name}
-                to={link.path}
+                key={link.to}
+                to={link.to}
                 onClick={() => setIsOpen(false)}
-                className={`
-                  text-white font-semibold
-                  text-base sm:text-lg
-                  hover:text-yellow-400 transition
-                  ${isActive ? 'text-yellow-400' : ''}
-                `}
+                className={`transition ${
+                  isActive(link.to)
+                    ? 'text-yellow-400 underline decoration-yellow-400 font-extrabold'
+                    : 'hover:text-yellow-400'
+                }`}
               >
-                {link.name}
+                {link.label}
               </Link>
-            );
-          })}
+            ))}
+          </div>
         </div>
       )}
     </nav>

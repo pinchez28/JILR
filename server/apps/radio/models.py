@@ -31,7 +31,4 @@ class Recording(models.Model):
 
 class RadioSettings(models.Model):
     stream_url = models.URLField()
-    max_duration_minutes = models.IntegerField(default=30)
-
-    def __str__(self):
-        return "Radio Settings"
+    max_duration_minutes = models.IntegerField(default=90)  # 🔥 NEW: Configurable max duration
