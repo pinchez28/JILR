@@ -8,9 +8,13 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Static and Media
-STATIC_URL = 'static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+# STATIC_URL = 'static/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# MEDIA_URL = "/media/"
+
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Recordings stored under MEDIA_ROOT/recordings
 RECORDINGS_DIR = os.path.join(MEDIA_ROOT, "recordings")
@@ -21,7 +25,7 @@ os.makedirs(RECORDINGS_DIR, exist_ok=True)
 # ----------------------------
 SECRET_KEY = config("SECRET_KEY", default="unsafe-dev-key")  # use .env in prod
 DEBUG = config("DEBUG", default=True, cast=bool)
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "yourdomain.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".onrender.com"]
 
 # ----------------------------
 # Installed Apps
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
