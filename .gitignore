@@ -39,9 +39,6 @@ env/
 staticfiles/
 media/
 
-# Migrations (optional: keep if you want them tracked)
-**/migrations/*
-!**/migrations/__init__.py
 
 # ================================
 # Environment Variables
