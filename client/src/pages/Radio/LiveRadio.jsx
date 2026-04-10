@@ -17,7 +17,6 @@ const RadioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const [lastRecordingId, setLastRecordingId] = useState(null);
   const [maxDuration, setMaxDuration] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
 
@@ -96,7 +95,7 @@ const RadioPlayer = () => {
       showError(data.error);
       return;
     }
-    setLastRecordingId(data.recording_id);
+
     const result = await Swal.fire({
       title: 'Download Recording?',
       text: `Size ~${data.size_mb} MB`,
@@ -104,6 +103,7 @@ const RadioPlayer = () => {
       showCancelButton: true,
       confirmButtonText: 'Download',
     });
+
     if (result.isConfirmed) downloadRecording(data.recording_id);
   };
 
@@ -115,7 +115,6 @@ const RadioPlayer = () => {
     showInfo('Download Started', 'Your file is downloading...');
   };
 
-  // 🔥 Format time for hours, minutes, seconds
   const formatTime = (sec) => {
     const h = Math.floor(sec / 3600);
     const m = Math.floor((sec % 3600) / 60);
@@ -163,16 +162,6 @@ const RadioPlayer = () => {
               className='px-3 py-1 sm:px-3 sm:py-2 bg-gray-800 text-white rounded-lg text-xs sm:text-sm flex-shrink-0'
             >
               Stop
-            </button>
-          )}
-
-          {/* Retry */}
-          {lastRecordingId && !isRecording && (
-            <button
-              onClick={() => downloadRecording(lastRecordingId)}
-              className='px-3 py-1 sm:px-3 sm:py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm flex-shrink-0'
-            >
-              Retry
             </button>
           )}
 

@@ -1,7 +1,12 @@
-import Router from '../src/routes/router';
+import MainLayout from './layouts/MainLayout';
+import Home from './pages/Home/Home';
 
 function App() {
-  return <Router />;
+  return (
+    <MainLayout>
+      <Home />
+    </MainLayout>
+  );
 }
 
 export default App;

@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.teachings',
     'apps.testimonies',
+    'apps.gallery',
+    'apps.prophecies',
 ]
 
 MIDDLEWARE = [

@@ -1,12 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'class',
+  darkMode: 'class', // enable dark mode via class
 
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 
   theme: {
     extend: {
-      // ✅ FIXED (moved outside colors)
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
       },
@@ -24,14 +23,20 @@ export default {
           dark: '#B78A12',
         },
 
+        blueTheme: {
+          DEFAULT: '#2563EB', // main blue
+          light: '#3B82F6',
+          dark: '#1E40AF',
+        },
+
         background: {
-          light: '#ffffff',
-          dark: '#0f172a',
+          light: '#2563EB', // ✅ light theme now uses blueTheme.DEFAULT
+          dark: '#0f172a', // dark theme
         },
 
         surface: {
-          light: '#f8fafc',
-          dark: '#1e293b',
+          light: '#f8fafc', // card backgrounds in light mode
+          dark: '#1e293b', // card backgrounds in dark mode
         },
 
         text: {
@@ -45,7 +50,6 @@ export default {
         },
       },
 
-      // ✅ ANIMATIONS
       animation: {
         borderGlow: 'borderGlow 6s linear infinite',
         glowPulse: 'glowPulse 2.5s ease-in-out infinite',
@@ -60,33 +64,16 @@ export default {
         },
 
         glowPulse: {
-          '0%, 100%': {
-            boxShadow: '0 0 10px rgba(59,130,246,0.4)',
-          },
-          '50%': {
-            boxShadow: '0 0 25px rgba(59,130,246,0.8)',
-          },
-        },
-
-        blueTheme: {
-          DEFAULT: '#2563EB', // main blue
-          light: '#3B82F6',
-          dark: '#1E40AF',
+          '0%, 100%': { boxShadow: '0 0 10px rgba(59,130,246,0.4)' },
+          '50%': { boxShadow: '0 0 25px rgba(59,130,246,0.8)' },
         },
 
         fadeIn: {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(10px)',
-          },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0)',
-          },
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
 
-      // Needed for animated gradients
       backgroundSize: {
         '200%': '200% 200%',
       },
