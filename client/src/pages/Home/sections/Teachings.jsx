@@ -32,9 +32,9 @@ const Teachings = () => {
   };
 
   return (
-    <section id='teachings' className='w-full space-y-6'>
+    <section id='teachings' className='w-full aspect-video mt-0'>
       {/* TITLE */}
-      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-4'>
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-4 '>
         Teachings
       </h1>
 
@@ -48,6 +48,7 @@ const Teachings = () => {
           text-text-light dark:text-text-dark
           border-accent-light dark:border-accent-dark
           focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary
+          mb-6
         '
         value={search}
         onChange={(e) => {

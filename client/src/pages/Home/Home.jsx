@@ -14,11 +14,11 @@ const Home = () => {
       {/* GLOBAL CONTENT WRAPPER (90% for all sections) */}
       <div className='w-[90%] mx-auto space-y-6'>
         <HeroSection />
+        <Gallery />
+        <Testimonies />
         <Prophecies />
         <Teachings />
         <Events />
-        <Testimonies />
-        <Gallery />
         <Programs />
         <Contact />
         <About />

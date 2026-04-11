@@ -40,7 +40,7 @@ const Footer = () => {
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-sm md:text-base text-gray-300'>
           {/* LEFT */}
           <div className='space-y-2'>
-            <h3 className='text-yellow-500 font-bold mb-2'>Location</h3>
+            <h3 className='text-yellow-500 font-bold mb-2'>Phyical Adress</h3>
             <p>P.O Box 16641</p>
             <p>Nakuru 20100</p>
             <p>Kenya</p>

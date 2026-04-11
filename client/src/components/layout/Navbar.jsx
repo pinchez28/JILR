@@ -9,11 +9,11 @@ const Navbar = () => {
 
   const links = [
     { id: 'home', label: 'Home' },
+    { id: 'gallery', label: 'Gallery' },
     { id: 'prophecies', label: 'Prophecies' },
     { id: 'teachings', label: 'Teachings' },
     { id: 'events', label: 'Events' },
     { id: 'testimonies', label: 'Healings & Testimonies' },
-    { id: 'gallery', label: 'Gallery' },
     { id: 'contact', label: 'Contact Us' },
     { id: 'about', label: 'About' },
   ];
