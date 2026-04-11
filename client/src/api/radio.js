@@ -1,4 +1,8 @@
-const BASE_URL = 'http://127.0.0.1:8000/api/radio';
+// src/api/radioApi.js
+
+const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+
+const BASE_URL = `${API_BASE}/radio`;
 
 export const radioApi = {
   // ▶ START
@@ -9,6 +13,7 @@ export const radioApi = {
       body: JSON.stringify({ session_id: sessionId }),
     });
 
+    if (!res.ok) throw new Error('Failed to start recording');
     return res.json();
   },
 
@@ -20,6 +25,7 @@ export const radioApi = {
       body: JSON.stringify({ session_id: sessionId }),
     });
 
+    if (!res.ok) throw new Error('Failed to stop recording');
     return res.json();
   },
 
