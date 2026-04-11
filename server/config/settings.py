@@ -25,7 +25,7 @@ os.makedirs(RECORDINGS_DIR, exist_ok=True)
 # ----------------------------
 SECRET_KEY = config("SECRET_KEY", default="unsafe-dev-key")  # use .env in prod
 DEBUG = config("DEBUG", default=True, cast=bool)
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".onrender.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "jilr.vercel.app", "jesusislordradio.onrender.com"]
 
 # ----------------------------
 # Installed Apps
@@ -133,5 +133,6 @@ USE_TZ = True
 # CORS
 # ----------------------------
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # dev frontend
+    "http://localhost:5173",
+    "https://jilr.vercel.app",
 ]
