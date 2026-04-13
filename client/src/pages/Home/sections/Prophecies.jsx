@@ -1,182 +1,117 @@
 import { useEffect, useState } from 'react';
 import { prophecyApi } from '../../../api/prophecies';
+import VideoCard from '../../../components/ui/media/VideoCard';
 
 const Prophesies = () => {
   const [prophecies, setProphecies] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [navHeight, setNavHeight] = useState(0);
 
   useEffect(() => {
-    prophecyApi
-      .getAll()
-      .then((data) => {
-        setProphecies(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-
-    // ✅ Get navbar height dynamically
-    const updateHeight = () => {
-      const nav = document.getElementById('navbar');
-      setNavHeight(nav?.offsetHeight || 0);
-    };
-
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
-
-    return () => window.removeEventListener('resize', updateHeight);
+    loadProphecies();
   }, []);
 
-  if (loading) return <p>Loading prophecies...</p>;
+  const loadProphecies = async () => {
+    try {
+      const data = await prophecyApi.getAll();
+
+      const list = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.results)
+          ? data.results
+          : [];
+
+      setProphecies(list);
+    } catch (err) {
+      console.error('Failed to load prophecies:', err);
+      setProphecies([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <p className='text-center text-secondary animate-fadeIn'>
+        Loading prophecies...
+      </p>
+    );
+  }
 
   return (
     <section id='prophecies' className='w-full'>
-      '{/* PAGE TITLE */}
-      <div>
-        <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline'>
-          Prophecies
-        </h1>
-      </div>
-      {/* GRID HEADER */}
-      <div className='hidden md:grid grid-cols-2 gap-6 text-center font-bold text-secondary text-2xl pt-10'>
-        <div className='bg-gray-100 dark:bg-surface-dark py-2 rounded-lg text-2xl'>
-          Prophecy
-        </div>
-        <div className='bg-gray-100 dark:bg-surface-dark py-2 rounded-lg'>
-          Fulfillment
-        </div>
-      </div>
-      {/* CONTENT */}
-      {prophecies.map((p) => (
-        <div
-          key={p.id}
-          className='grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch pt-20 md:pt-10'
-        >
-          {/* PROPHECY */}
-          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-4 flex flex-col'>
-            <div className='md:hidden mb-2 font-bold text-secondary text-center'>
-              Prophecy
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'>
+        Prophecies
+      </h1>
+
+      <div className='grid grid-cols-1 gap-6'>
+        {prophecies.map((p) => (
+          <div
+            key={p.id}
+            className='grid grid-cols-1 md:grid-cols-2 gap-6 bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-4'
+          >
+            {/* PROPHECY */}
+            <div className='flex flex-col gap-4'>
+              <div>
+                <h2 className='text-lg font-bold text-primary dark:text-secondary'>
+                  {p.title}
+                </h2>
+
+                <p className='text-xs opacity-70'>
+                  {new Date(p.created_at).toLocaleString()}
+                </p>
+
+                {p.description && (
+                  <p className='text-sm mt-2 opacity-80'>{p.description}</p>
+                )}
+              </div>
+
+              <VideoCard
+                src={p.prophecy_media}
+                title='Prophecy'
+                downloadable
+                downloadUrl={prophecyApi.downloadProphecy(p.id)}
+              />
             </div>
 
-            <h2 className='text-lg font-bold mb-1 dark:text-gray-50'>
-              {p.title}
-            </h2>
+            {/* FULFILLMENTS */}
+            <div className='flex flex-col gap-4'>
+              <h3 className='text-green-500 font-semibold'>Fulfillment</h3>
 
-            <p className='text-xs text-gray-900 mb-2 dark:text-gray-50'>
-              {p.created_at
-                ? new Date(p.created_at).toLocaleString()
-                : 'No timestamp'}
-            </p>
+              {p.fulfillments?.length > 0 ? (
+                p.fulfillments.map((f) => (
+                  <div key={f.id} className='flex flex-col gap-2'>
+                    {/* ✅ TITLE */}
 
-            {p.description && (
-              <p className='text-sm text-gray-500 dark:text-gray-100 mb-3'>
-                {p.description}
-              </p>
-            )}
+                    {/* ✅ TIMESTAMP */}
+                    <p className='text-xs opacity-70'>
+                      {new Date(f.created_at).toLocaleString()}
+                    </p>
 
-            <div className='flex-1 flex items-center'>
-              {p.prophecy_media ? (
-                p.prophecy_type === 'video' ? (
-                  <video
-                    src={prophecyApi.getMediaUrl(p.prophecy_media)}
-                    controls
-                    className='w-full h-56 object-cover rounded-lg bg-black'
-                    preload='auto'
-                  />
-                ) : (
-                  <audio
-                    src={prophecyApi.getMediaUrl(p.prophecy_media)}
-                    controls
-                    className='w-full'
-                    preload='auto'
-                  />
-                )
+                    {/* ✅ DESCRIPTION */}
+                    {f.description && (
+                      <p className='text-sm opacity-80'>{f.description}</p>
+                    )}
+
+                    {/* ✅ MEDIA CARD */}
+                    <VideoCard
+                      src={f.fulfillment_media}
+                      title='Fulfillment'
+                      downloadable
+                      downloadUrl={prophecyApi.downloadFulfillment(f.id)}
+                    />
+                  </div>
+                ))
               ) : (
-                <div className='text-gray-400 text-sm'>
-                  ❌ No prophecy media
+                <div className='text-gray-400 border border-dashed p-4 rounded-lg text-center'>
+                  Awaiting Fulfillment
                 </div>
               )}
             </div>
           </div>
-
-          {/* FULFILLMENT */}
-          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-4 flex flex-col'>
-            <div className='md:hidden mb-2 font-bold text-secondary text-center'>
-              Fulfillment
-            </div>
-
-            {p.fulfillments?.length > 0 ? (
-              p.fulfillments.map((f) => (
-                <div key={f.id} className='flex-1 flex flex-col'>
-                  <p className='text-xs text-gray-900 dark:text-gray-50 mb-1'>
-                    {f.created_at
-                      ? new Date(f.created_at).toLocaleString()
-                      : 'No timestamp'}
-                  </p>
-
-                  {f.description && (
-                    <p className='text-sm text-gray-500 dark:text-gray-300 mb-3'>
-                      {f.description}
-                    </p>
-                  )}
-
-                  <div className='flex-1 flex items-center'>
-                    {f.fulfillment_media ? (
-                      f.fulfillment_type === 'video' ? (
-                        <video
-                          src={prophecyApi.getMediaUrl(f.fulfillment_media)}
-                          controls
-                          className='w-full h-56 object-cover rounded-lg bg-black'
-                          preload='auto'
-                        />
-                      ) : (
-                        <audio
-                          src={prophecyApi.getMediaUrl(f.fulfillment_media)}
-                          controls
-                          className='w-full'
-                          preload='auto'
-                        />
-                      )
-                    ) : (
-                      <div className='text-gray-400 text-sm'>
-                        ❌ No fulfillment media
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className='flex flex-col items-center justify-center h-full border-2 border-dashed rounded-lg text-gray-400'>
-                <span className='text-4xl mb-2'>⏳</span>
-                Awaiting Fulfillment
-              </div>
-            )}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </section>
   );
 };
 
 export default Prophesies;
-
-// import { useEffect, useState } from 'react';
-// import { prophecyApi } from '../../../api/prophecies';
-
-// const Prophecies = () => {
-//   return (
-//     <section id='events' className='p-6 max-w-6xl mx-auto space-y-8'>
-//       {/* PAGE TITLE */}
-//       <div>
-//         <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline'>
-//           Prophecies
-//         </h1>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Prophecies;

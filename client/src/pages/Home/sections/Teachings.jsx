@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { teachingsApi } from '../../../api/teachings';
 
+// ✅ reusable components
+import VideoCard from '../../../components/ui/media/VideoCard';
+import ImageCard from '../../../components/ui/media/ImageCard';
+
 const Teachings = () => {
   const [teachings, setTeachings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,9 +36,9 @@ const Teachings = () => {
   };
 
   return (
-    <section id='teachings' className='w-full aspect-video mt-0'>
+    <section id='teachings' className='w-full mt-0'>
       {/* TITLE */}
-      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-4 '>
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-4'>
         Teachings
       </h1>
 
@@ -65,64 +69,73 @@ const Teachings = () => {
       )}
 
       {/* GRID */}
-      <div className='grid md:grid-cols-2 gap-6'>
-        {teachings.map((t) => (
-          <div
-            key={t.id}
-            className='
-              p-5 rounded-xl shadow-lg
-              bg-surface-light dark:bg-surface-dark
-              border border-accent-light dark:border-accent-dark
-              animate-fadeIn
-            '
-          >
-            {/* TITLE */}
-            <h2 className='font-bold text-lg text-primary dark:text-secondary'>
-              {t.title}
-            </h2>
+      {!loading && (
+        <div className='grid md:grid-cols-2 gap-6'>
+          {teachings.map((t) => (
+            <div key={t.id} className='animate-fadeIn'>
+              {/* 🎥 VIDEO */}
+              {t.media_type === 'video' && (
+                <VideoCard
+                  src={t.media_file}
+                  title={t.title}
+                  downloadable={t.is_downloadable}
+                  onDownload={() => handleDownload(t.id)}
+                />
+              )}
 
-            <p className='text-sm text-text-light dark:text-text-dark opacity-80'>
-              📍 {t.location}
-            </p>
+              {/* 🖼️ IMAGE */}
+              {t.media_type === 'image' && (
+                <ImageCard src={t.media_file} title={t.title} />
+              )}
 
-            <p className='text-xs text-secondary mt-1 uppercase tracking-wider'>
-              {t.media_type}
-            </p>
-
-            {/* AUDIO */}
-            {t.media_type === 'audio' && (
-              <audio controls className='w-full mt-3'>
-                <source src={t.media_file} />
-              </audio>
-            )}
-
-            {/* VIDEO */}
-            {t.media_type === 'video' && (
-              <video controls className='w-full mt-3 rounded-lg'>
-                <source src={t.media_file} />
-              </video>
-            )}
-
-            {/* ACTIONS */}
-            <div className='flex gap-3 mt-4'>
-              {t.is_downloadable && t.media_file && (
-                <button
-                  onClick={() => handleDownload(t.id)}
+              {/* 🎧 AUDIO */}
+              {t.media_type === 'audio' && (
+                <div
                   className='
-                    px-4 py-2 rounded-lg font-semibold
-                    bg-primary hover:bg-primary-dark
-                    dark:bg-secondary dark:hover:bg-secondary-dark
-                    text-white dark:text-black
-                    transition
+                    p-[3px] rounded-xl
+                    bg-gradient-to-r from-primary via-blueTheme to-secondary
+                    bg-200 animate-borderGlow
                   '
                 >
-                  Download
-                </button>
+                  <div
+                    className='
+                      p-4 rounded-xl shadow-lg
+                      bg-surface-light dark:bg-surface-dark
+                    '
+                  >
+                    <h2 className='font-bold text-lg text-primary dark:text-secondary'>
+                      {t.title}
+                    </h2>
+
+                    <p className='text-sm text-text-light dark:text-text-dark opacity-80'>
+                      📍 {t.location}
+                    </p>
+
+                    <audio controls className='w-full mt-3'>
+                      <source src={t.media_file} />
+                    </audio>
+
+                    {t.is_downloadable && t.media_file && (
+                      <button
+                        onClick={() => handleDownload(t.id)}
+                        className='
+                          mt-4 w-full px-4 py-2 rounded-lg font-semibold
+                          bg-primary hover:bg-primary-dark
+                          dark:bg-secondary dark:hover:bg-secondary-dark
+                          text-white dark:text-black
+                          transition
+                        '
+                      >
+                        Download
+                      </button>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* PAGINATION */}
       <div className='flex justify-center gap-4 pt-6 text-text-light dark:text-text-dark'>

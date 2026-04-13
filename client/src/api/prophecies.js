@@ -1,33 +1,32 @@
-// src/api/prophecyApi.js
-
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
-const BASE_URL = `${API_BASE}/prophecies`;
+const BASE_URL = `${API_BASE}/prophecies/prophecies`;
+
+const request = async (url) => {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    const error = await res.text();
+    throw new Error(error || 'Request failed');
+  }
+
+  return res.json();
+};
 
 export const prophecyApi = {
   // 📝 GET ALL PROPHECIES
-  getAll: async () => {
-    const res = await fetch(`${BASE_URL}/`);
-    if (!res.ok) throw new Error('Failed to fetch prophecies');
-    return res.json();
-  },
+  getAll: () => request(`${BASE_URL}/`),
 
-  // 🌀 GET SINGLE PROPHECY WITH FULFILLMENTS
-  getById: async (id) => {
-    const res = await fetch(`${BASE_URL}/${id}/`);
-    if (!res.ok) throw new Error('Failed to fetch prophecy');
-    return res.json();
-  },
+  // 🌀 GET SINGLE PROPHECY (includes fulfillments via serializer)
+  getById: (id) => request(`${BASE_URL}/${id}/`),
 
-  // 🔗 GET FULFILLMENTS BY PROPHECY
-  getFulfillments: async (prophecyId) => {
-    const res = await fetch(`${BASE_URL}/fulfillments/?prophecy=${prophecyId}`);
-    if (!res.ok) throw new Error('Failed to fetch fulfillments');
-    return res.json();
-  },
+  // ⚠️ OPTIONAL: ONLY USE IF YOU ADD FILTERING IN BACKEND
+  getFulfillments: (prophecyId) =>
+    request(`${API_BASE}/fulfillments/?prophecy=${prophecyId}`),
 
-  // ⬇ GET MEDIA URL
-  getMediaUrl: (mediaPath) => {
-    return mediaPath;
-  },
+  // ⬇ DOWNLOAD PROPHECY MEDIA
+  downloadProphecy: (id) => `${BASE_URL}/${id}/download/`,
+
+  // ⬇ DOWNLOAD FULFILLMENT MEDIA
+  downloadFulfillment: (id) => `${API_BASE}/fulfillments/${id}/download/`,
 };

@@ -8,8 +8,10 @@ urlpatterns = [
 
     # Replace Ellipsis with actual app urls
     path('api/radio/', include('apps.radio.urls')),
+    path('api/gallery/', include('apps.gallery.urls')),
     path('api/prophecies/', include('apps.prophecies.urls')),
     path('api/teachings/', include('apps.teachings.urls')),
+    path('api/testimonies/', include('apps.testimonies.urls')),
 
 ]
 

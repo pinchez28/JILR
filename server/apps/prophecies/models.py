@@ -1,6 +1,6 @@
 from django.db import models
 
-# Prophecy and Fulfillment models to store prophecies and their fulfillments, including media files and descriptions.
+
 class Prophecy(models.Model):
     MEDIA_TYPE_CHOICES = [
         ('audio', 'Audio'),
@@ -31,6 +31,9 @@ class Fulfillment(models.Model):
         related_name="fulfillments"
     )
 
+    # ✅ NEW FIELD
+    title = models.CharField(max_length=255)
+
     fulfillment_media = models.FileField(upload_to='fulfillments/')
     fulfillment_type = models.CharField(max_length=10, choices=MEDIA_TYPE_CHOICES)
 
@@ -39,4 +42,4 @@ class Fulfillment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Fulfillment for {self.prophecy.title}"
+        return f"{self.title} ({self.prophecy.title})"

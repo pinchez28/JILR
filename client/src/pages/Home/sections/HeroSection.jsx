@@ -3,7 +3,7 @@ import heroVideo from '../../../assets/clips/hero.mp4';
 
 const HeroSection = () => {
   return (
-    <section id='home' className='p-6 max-w-6xl mx-auto space-y-6'>
+    <section id='home' className='w-full'>
       {/* 🎥 Background Video */}
       <video
         className='absolute inset-0 w-full h-full object-cover'

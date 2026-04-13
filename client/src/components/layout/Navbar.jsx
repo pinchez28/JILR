@@ -13,7 +13,8 @@ const Navbar = () => {
     { id: 'prophecies', label: 'Prophecies' },
     { id: 'teachings', label: 'Teachings' },
     { id: 'events', label: 'Events' },
-    { id: 'testimonies', label: 'Healings & Testimonies' },
+    { id: 'testimonies', label: 'Programs' },
+    { id: 'programs', label: 'Healings & Testimonies' },
     { id: 'contact', label: 'Contact Us' },
     { id: 'about', label: 'About' },
   ];

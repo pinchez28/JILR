@@ -32,7 +32,7 @@ const Events = () => {
   };
 
   return (
-    <section id='events' className='w-full aspect-video mt-0'>
+    <section id='events' className='w-full mt-0'>
       {/* TITLE */}
       <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-4 '>
         Events
