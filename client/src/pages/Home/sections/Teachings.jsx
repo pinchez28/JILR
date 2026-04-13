@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { teachingsApi } from '../../../api/teachings';
 
-// ✅ reusable components
 import VideoCard from '../../../components/ui/media/VideoCard';
-import ImageCard from '../../../components/ui/media/ImageCard';
+import AudioCard from '../../../components/ui/media/AudioCard';
+import Pagination from '../../../components/ui/Pagination';
 
 const Teachings = () => {
   const [teachings, setTeachings] = useState([]);
@@ -25,14 +25,10 @@ const Teachings = () => {
       setTeachings(res.results || res);
       setTotalPages(Math.ceil((res.count || 0) / 10));
     } catch (err) {
-      console.error(err);
+      console.error('Failed to load teachings:', err);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDownload = (id) => {
-    window.open(teachingsApi.getDownloadUrl(id), '_blank');
   };
 
   return (
@@ -79,94 +75,33 @@ const Teachings = () => {
                   src={t.media_file}
                   title={t.title}
                   downloadable={t.is_downloadable}
-                  onDownload={() => handleDownload(t.id)}
+                  downloadUrl={teachingsApi.getDownloadUrl(t.id)}
                 />
-              )}
-
-              {/* 🖼️ IMAGE */}
-              {t.media_type === 'image' && (
-                <ImageCard src={t.media_file} title={t.title} />
               )}
 
               {/* 🎧 AUDIO */}
               {t.media_type === 'audio' && (
-                <div
-                  className='
-                    p-[3px] rounded-xl
-                    bg-gradient-to-r from-primary via-blueTheme to-secondary
-                    bg-200 animate-borderGlow
-                  '
-                >
-                  <div
-                    className='
-                      p-4 rounded-xl shadow-lg
-                      bg-surface-light dark:bg-surface-dark
-                    '
-                  >
-                    <h2 className='font-bold text-lg text-primary dark:text-secondary'>
-                      {t.title}
-                    </h2>
-
-                    <p className='text-sm text-text-light dark:text-text-dark opacity-80'>
-                      📍 {t.location}
-                    </p>
-
-                    <audio controls className='w-full mt-3'>
-                      <source src={t.media_file} />
-                    </audio>
-
-                    {t.is_downloadable && t.media_file && (
-                      <button
-                        onClick={() => handleDownload(t.id)}
-                        className='
-                          mt-4 w-full px-4 py-2 rounded-lg font-semibold
-                          bg-primary hover:bg-primary-dark
-                          dark:bg-secondary dark:hover:bg-secondary-dark
-                          text-white dark:text-black
-                          transition
-                        '
-                      >
-                        Download
-                      </button>
-                    )}
-                  </div>
-                </div>
+                <AudioCard
+                  src={t.media_file}
+                  title={t.title}
+                  location={t.location}
+                  downloadable={t.is_downloadable}
+                  downloadUrl={teachingsApi.getDownloadUrl(t.id)}
+                />
               )}
             </div>
           ))}
         </div>
       )}
 
-      {/* PAGINATION */}
-      <div className='flex justify-center gap-4 pt-6 text-text-light dark:text-text-dark'>
-        <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className='
-            px-3 py-1 rounded border
-            border-accent-light dark:border-accent-dark
-            hover:bg-accent-light dark:hover:bg-accent-dark
-            disabled:opacity-40
-          '
-        >
-          Prev
-        </button>
-
-        <span className='text-secondary font-semibold'>Page {page}</span>
-
-        <button
-          disabled={page >= totalPages}
-          onClick={() => setPage(page + 1)}
-          className='
-            px-3 py-1 rounded border
-            border-accent-light dark:border-primary-dark
-            hover:bg-accent-light dark:hover:bg-accent-dark
-            disabled:opacity-40
-          '
-        >
-          Next
-        </button>
-      </div>
+      {/* ✅ REUSABLE PAGINATION (CLEAN) */}
+      {!loading && (
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      )}
     </section>
   );
 };

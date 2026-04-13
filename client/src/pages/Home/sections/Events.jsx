@@ -1,159 +1,102 @@
 import { useEffect, useState } from 'react';
-import { teachingsApi } from '../../../api/teachings';
+import { eventsApi } from '../../../api/events.js';
 
 const Events = () => {
-  const [teachings, setTeachings] = useState([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState('');
-  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    loadTeachings();
-  }, [page, search]);
+    loadEvents();
+  }, []);
 
-  const loadTeachings = async () => {
+  const loadEvents = async () => {
     setLoading(true);
 
     try {
-      const res = await teachingsApi.getAll(page, search);
-
-      setTeachings(res.results || res);
-      setTotalPages(Math.ceil((res.count || 0) / 10));
+      const data = await eventsApi.getAll();
+      setEvents(data || []);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to load events:', err);
+      setEvents([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDownload = (id) => {
-    window.open(teachingsApi.getDownloadUrl(id), '_blank');
-  };
+  if (loading) {
+    return (
+      <p className='text-center text-secondary animate-fadeIn'>
+        Loading events...
+      </p>
+    );
+  }
 
   return (
     <section id='events' className='w-full mt-0'>
       {/* TITLE */}
-      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-4 '>
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'>
         Events
       </h1>
 
-      {/* SEARCH */}
-      <input
-        type='text'
-        placeholder='Search teachings...'
-        className='
-          w-full p-3 rounded-lg border
-          bg-surface-light dark:bg-surface-dark
-          text-text-light dark:text-text-dark
-          border-accent-light dark:border-accent-dark
-          focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary
-          mb-6
-        '
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setPage(1);
-        }}
-      />
-
-      {/* LOADING */}
-      {loading && (
-        <p className='text-center text-secondary animate-fadeIn'>
-          Loading teachings...
-        </p>
-      )}
-
       {/* GRID */}
       <div className='grid md:grid-cols-2 gap-6'>
-        {teachings.map((t) => (
+        {events.map((e) => (
           <div
-            key={t.id}
+            key={e.id}
             className='
-              p-5 rounded-xl shadow-lg
               bg-surface-light dark:bg-surface-dark
+              rounded-xl shadow-lg overflow-hidden
               border border-accent-light dark:border-accent-dark
+              flex flex-col
               animate-fadeIn
             '
           >
-            {/* TITLE */}
-            <h2 className='font-bold text-lg text-primary dark:text-secondary'>
-              {t.title}
-            </h2>
-
-            <p className='text-sm text-text-light dark:text-text-dark opacity-80'>
-              📍 {t.location}
-            </p>
-
-            <p className='text-xs text-secondary mt-1 uppercase tracking-wider'>
-              {t.media_type}
-            </p>
-
-            {/* AUDIO */}
-            {t.media_type === 'audio' && (
-              <audio controls className='w-full mt-3'>
-                <source src={t.media_file} />
-              </audio>
+            {/* ===================== */}
+            {/* 🖼️ POSTER */}
+            {/* ===================== */}
+            {e.poster && (
+              <div className='w-full h-64 md:h-72 overflow-hidden'>
+                <div className='w-full overflow-hidden md:h-72'>
+                  <img
+                    src={e.poster}
+                    alt={e.title}
+                    loading='lazy'
+                    className='w-full h-auto md:h-full md:object-cover object-contain'
+                  />
+                </div>
+              </div>
             )}
 
-            {/* VIDEO */}
-            {t.media_type === 'video' && (
-              <video controls className='w-full mt-3 rounded-lg'>
-                <source src={t.media_file} />
-              </video>
-            )}
+            {/* ===================== */}
+            {/* 📄 CONTENT */}
+            {/* ===================== */}
+            <div className='p-5 flex flex-col gap-3'>
+              {/* TITLE */}
+              <h2 className='text-xl font-bold text-primary dark:text-secondary'>
+                {e.title}
+              </h2>
 
-            {/* ACTIONS */}
-            <div className='flex gap-3 mt-4'>
-              {t.is_downloadable && t.media_file && (
-                <button
-                  onClick={() => handleDownload(t.id)}
-                  className='
-                    px-4 py-2 rounded-lg font-semibold
-                    bg-primary hover:bg-primary-dark
-                    dark:bg-secondary dark:hover:bg-secondary-dark
-                    text-white dark:text-black
-                    transition
-                  '
-                >
-                  Download
-                </button>
-              )}
+              {/* LOCATION */}
+              <p className='text-sm opacity-80'>📍 {e.location}</p>
+
+              {/* DATE + DURATION */}
+              <p className='text-xs opacity-70'>
+                {e.start_date} → {e.end_date} ({e.duration} days)
+              </p>
+
+              {/* DESCRIPTION */}
+              <p className='text-sm opacity-80 leading-relaxed'>
+                {e.description}
+              </p>
             </div>
           </div>
         ))}
       </div>
 
-      {/* PAGINATION */}
-      <div className='flex justify-center gap-4 pt-6 text-text-light dark:text-text-dark'>
-        <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className='
-            px-3 py-1 rounded border
-            border-accent-light dark:border-accent-dark
-            hover:bg-accent-light dark:hover:bg-accent-dark
-            disabled:opacity-40
-          '
-        >
-          Prev
-        </button>
-
-        <span className='text-secondary font-semibold'>Page {page}</span>
-
-        <button
-          disabled={page >= totalPages}
-          onClick={() => setPage(page + 1)}
-          className='
-            px-3 py-1 rounded border
-            border-accent-light dark:border-primary-dark
-            hover:bg-accent-light dark:hover:bg-accent-dark
-            disabled:opacity-40
-          '
-        >
-          Next
-        </button>
-      </div>
+      {/* EMPTY STATE */}
+      {events.length === 0 && !loading && (
+        <p className='text-center text-gray-400 mt-6'>No events found</p>
+      )}
     </section>
   );
 };

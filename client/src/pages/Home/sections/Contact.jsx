@@ -1,4 +1,16 @@
 const Contact = () => {
+  const contacts = {
+    phones: [
+      '+254 53 8014798',
+      '+254 774 445 851',
+      '+254 756 605 399',
+      '+254 727 503 030',
+    ],
+    email: 'jesusislord.fmradio@gmail.com',
+    website: 'www.jesusislordradio.info',
+    location: ['P.O Box 16641', 'Nakuru 20100', 'Kenya'],
+  };
+
   const scrollToTop = () => {
     const nav = document.getElementById('navbar');
 
@@ -6,49 +18,80 @@ const Contact = () => {
       const y =
         nav.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight;
 
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth',
-      });
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
   return (
-    <section id='contact' className='w-full'>
-      {/* 🔝 Scroll to top button */}
-
+    <section id='contact' className='w-full py-10'>
       <div className='max-w-6xl mx-auto px-6'>
-        {/* TOP: CENTER LOGO + TITLE */}
-        <div className='flex flex-col items-center text-center mb-10'>
-          <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline'>
-            Contacts
+        {/* TITLE */}
+        <div className='text-center mb-10'>
+          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'>
+            Contact Us
           </h1>
+          <p className='text-sm opacity-70 mt-2'>
+            Get in touch with Jesus Is Lord Radio Ministry
+          </p>
         </div>
 
-        {/* MIDDLE: DISTRIBUTED CONTENT */}
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-sm md:text-base text-gray-300'>
-          {/* LEFT */}
-          <div className='space-y-2'>
-            <h3 className='text-yellow-500 font-bold mb-2'>Location</h3>
-            <p>P.O Box 16641</p>
-            <p>Nakuru 20100</p>
-            <p>Kenya</p>
+        {/* GRID */}
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+          {/* LOCATION */}
+          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+              📍 Physical Address
+            </h3>
+
+            <div className='text-sm opacity-80 space-y-1'>
+              {contacts.location.map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
           </div>
 
-          {/* CENTER */}
-          <div className='space-y-2'>
-            <h3 className='text-yellow-500 font-bold mb-2'>Contacts</h3>
-            <p>📞 +254 53 8014798</p>
-            <p>📞 +254 774 445 851</p>
-            <p>📞 +254 756 605 399</p>
-            <p>💬 +254 727 503 030</p>
+          {/* CONTACT NUMBERS */}
+          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+              📞 Phone
+            </h3>
+
+            <div className='space-y-2 text-sm'>
+              {contacts.phones.map((phone, i) => (
+                <a
+                  key={i}
+                  href={`tel:${phone}`}
+                  className='block hover:text-primary dark:hover:text-secondary transition'
+                >
+                  {phone}
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* RIGHT */}
-          <div className='space-y-2'>
-            <h3 className='text-yellow-500 font-bold mb-2'>Email & Web</h3>
-            <p>📧 jesusislord.fmradio@gmail.com</p>
-            <p>🌐 www.jesusislordradio.info</p>
+          {/* EMAIL + WEBSITE */}
+          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+              🌐 Online
+            </h3>
+
+            <div className='space-y-3 text-sm'>
+              <a
+                href={`mailto:${contacts.email}`}
+                className='block hover:text-primary dark:hover:text-secondary transition'
+              >
+                📧 {contacts.email}
+              </a>
+
+              <a
+                href={`https://${contacts.website}`}
+                target='_blank'
+                rel='noreferrer'
+                className='block hover:text-primary dark:hover:text-secondary transition'
+              >
+                🌍 {contacts.website}
+              </a>
+            </div>
           </div>
         </div>
       </div>

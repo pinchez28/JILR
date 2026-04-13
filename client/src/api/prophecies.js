@@ -17,16 +17,17 @@ export const prophecyApi = {
   // 📝 GET ALL PROPHECIES
   getAll: () => request(`${BASE_URL}/`),
 
-  // 🌀 GET SINGLE PROPHECY (includes fulfillments via serializer)
+  // 🌀 GET SINGLE PROPHECY
   getById: (id) => request(`${BASE_URL}/${id}/`),
 
-  // ⚠️ OPTIONAL: ONLY USE IF YOU ADD FILTERING IN BACKEND
+  // ⚠️ OPTIONAL
   getFulfillments: (prophecyId) =>
-    request(`${API_BASE}/fulfillments/?prophecy=${prophecyId}`),
+    request(`${API_BASE}/prophecies/fulfillments/?prophecy=${prophecyId}`),
 
-  // ⬇ DOWNLOAD PROPHECY MEDIA
+  // ⬇ DOWNLOAD PROPHECY
   downloadProphecy: (id) => `${BASE_URL}/${id}/download/`,
 
-  // ⬇ DOWNLOAD FULFILLMENT MEDIA
-  downloadFulfillment: (id) => `${API_BASE}/fulfillments/${id}/download/`,
+  // ✅ FIXED DOWNLOAD FULFILLMENT
+  downloadFulfillment: (id) =>
+    `${API_BASE}/prophecies/fulfillments/${id}/download/`,
 };

@@ -1,18 +1,24 @@
 import { useEffect, useState } from 'react';
 import { prophecyApi } from '../../../api/prophecies';
 import VideoCard from '../../../components/ui/media/VideoCard';
+import Pagination from '../../../components/ui/Pagination';
 
 const Prophesies = () => {
   const [prophecies, setProphecies] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     loadProphecies();
-  }, []);
+  }, [page]);
 
   const loadProphecies = async () => {
+    setLoading(true);
+
     try {
-      const data = await prophecyApi.getAll();
+      const data = await prophecyApi.getAll(page);
 
       const list = Array.isArray(data)
         ? data
@@ -21,9 +27,14 @@ const Prophesies = () => {
           : [];
 
       setProphecies(list);
+
+      // ✅ pagination support
+      const count = data?.count || 0;
+      setTotalPages(Math.ceil(count / 10));
     } catch (err) {
       console.error('Failed to load prophecies:', err);
       setProphecies([]);
+      setTotalPages(1);
     } finally {
       setLoading(false);
     }
@@ -39,77 +50,93 @@ const Prophesies = () => {
 
   return (
     <section id='prophecies' className='w-full'>
-      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'>
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-10'>
         Prophecies
       </h1>
 
-      <div className='grid grid-cols-1 gap-6'>
+      <div className='flex flex-col gap-12'>
         {prophecies.map((p) => (
-          <div
-            key={p.id}
-            className='grid grid-cols-1 md:grid-cols-2 gap-6 bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-4'
-          >
-            {/* PROPHECY */}
-            <div className='flex flex-col gap-4'>
-              <div>
-                <h2 className='text-lg font-bold text-primary dark:text-secondary'>
-                  {p.title}
-                </h2>
+          <div key={p.id} className='relative'>
+            {/* TIMELINE LINE */}
+            <div className='hidden md:block absolute left-1/2 top-0 h-full w-1 bg-gray-300 dark:bg-gray-700 transform -translate-x-1/2'></div>
 
-                <p className='text-xs opacity-70'>
-                  {new Date(p.created_at).toLocaleString()}
-                </p>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch'>
+              {/* PROPHECY */}
+              <div className='flex flex-col h-full'>
+                <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-4 flex flex-col gap-4 h-full relative'>
+                  <VideoCard
+                    src={p.prophecy_media}
+                    title='Prophecy'
+                    downloadable
+                    downloadUrl={prophecyApi.downloadProphecy(p.id)}
+                  />
 
-                {p.description && (
-                  <p className='text-sm mt-2 opacity-80'>{p.description}</p>
-                )}
-              </div>
+                  <div>
+                    <h2 className='text-lg font-bold text-primary dark:text-secondary'>
+                      {p.title}
+                    </h2>
 
-              <VideoCard
-                src={p.prophecy_media}
-                title='Prophecy'
-                downloadable
-                downloadUrl={prophecyApi.downloadProphecy(p.id)}
-              />
-            </div>
-
-            {/* FULFILLMENTS */}
-            <div className='flex flex-col gap-4'>
-              <h3 className='text-green-500 font-semibold'>Fulfillment</h3>
-
-              {p.fulfillments?.length > 0 ? (
-                p.fulfillments.map((f) => (
-                  <div key={f.id} className='flex flex-col gap-2'>
-                    {/* ✅ TITLE */}
-
-                    {/* ✅ TIMESTAMP */}
                     <p className='text-xs opacity-70'>
-                      {new Date(f.created_at).toLocaleString()}
+                      {new Date(p.created_at).toLocaleString()}
                     </p>
 
-                    {/* ✅ DESCRIPTION */}
-                    {f.description && (
-                      <p className='text-sm opacity-80'>{f.description}</p>
+                    {p.description && (
+                      <p className='text-sm mt-2 opacity-80'>{p.description}</p>
                     )}
-
-                    {/* ✅ MEDIA CARD */}
-                    <VideoCard
-                      src={f.fulfillment_media}
-                      title='Fulfillment'
-                      downloadable
-                      downloadUrl={prophecyApi.downloadFulfillment(f.id)}
-                    />
                   </div>
-                ))
-              ) : (
-                <div className='text-gray-400 border border-dashed p-4 rounded-lg text-center'>
-                  Awaiting Fulfillment
                 </div>
-              )}
+              </div>
+
+              {/* FULFILLMENTS */}
+              <div className='flex flex-col gap-6 h-full'>
+                {p.fulfillments?.length > 0 ? (
+                  p.fulfillments.map((f) => (
+                    <div
+                      key={f.id}
+                      className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-md p-4 flex flex-col gap-4 h-full relative'
+                    >
+                      <VideoCard
+                        src={f.fulfillment_media}
+                        title={f.title || 'Fulfillment'}
+                        downloadable
+                        downloadUrl={prophecyApi.downloadFulfillment(f.id)}
+                      />
+
+                      <div>
+                        <h4 className='text-md font-bold text-green-500'>
+                          {f.title || 'Fulfillment'}
+                        </h4>
+
+                        <p className='text-xs opacity-70'>
+                          {new Date(f.created_at).toLocaleString()}
+                        </p>
+
+                        {f.description && (
+                          <p className='text-sm mt-2 opacity-80'>
+                            {f.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className='flex flex-col justify-center items-center h-full text-gray-400 border border-dashed p-6 rounded-lg'>
+                    Awaiting Fulfillment
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* MOBILE CONNECTOR */}
+            <div className='md:hidden flex flex-col items-center mt-6'>
+              <div className='w-1 h-6 bg-gray-300 dark:bg-gray-700'></div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* ✅ PAGINATION */}
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
     </section>
   );
 };

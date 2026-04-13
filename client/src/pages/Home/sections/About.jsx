@@ -6,50 +6,83 @@ const About = () => {
       const y =
         nav.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight;
 
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth',
-      });
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
   return (
-    <section id='about' className='w-full pb-10'>
-      {/* 🔝 Scroll to top button */}
-
+    <section id='about' className='w-full pb-12'>
       <div className='max-w-6xl mx-auto px-6'>
-        {/* TOP: CENTER LOGO + TITLE */}
-        <div className='flex flex-col items-center text-center mb-10'>
-          <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline'>
-            About
+        {/* TITLE */}
+        <div className='text-center mb-10'>
+          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'>
+            About the Ministry
           </h1>
+          <p className='text-sm opacity-70 mt-2'>
+            Jesus Is Lord Radio – Spreading the Gospel to the Nations
+          </p>
         </div>
 
-        {/* MIDDLE: DISTRIBUTED CONTENT */}
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-sm md:text-base text-gray-300'>
-          {/* LEFT */}
-          <div className='space-y-2'>
-            <h3 className='text-yellow-500 font-bold mb-2'>Location</h3>
-            <p>P.O Box 16641</p>
-            <p>Nakuru 20100</p>
-            <p>Kenya</p>
+        {/* HERO DESCRIPTION */}
+        <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-6 mb-10 border border-accent-light dark:border-accent-dark'>
+          <p className='text-sm md:text-base leading-relaxed opacity-90'>
+            Jesus Is Lord Radio is a global Christian broadcasting ministry
+            dedicated to spreading the Gospel of Jesus Christ to all nations.
+            Through powerful teachings, live services, revival messages, and
+            worship sessions, the ministry seeks to prepare the Church for the
+            coming of the Lord and ignite revival across the world.
+          </p>
+        </div>
+
+        {/* GRID SECTIONS */}
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+          {/* MISSION */}
+          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+              🎯 Mission
+            </h3>
+
+            <p className='text-sm opacity-80 leading-relaxed'>
+              To preach holiness, righteousness, and repentance through
+              broadcasting, reaching souls globally and preparing believers for
+              the Kingdom of God.
+            </p>
           </div>
 
-          {/* CENTER */}
-          <div className='space-y-2'>
-            <h3 className='text-yellow-500 font-bold mb-2'>Contacts</h3>
-            <p>📞 +254 53 8014798</p>
-            <p>📞 +254 774 445 851</p>
-            <p>📞 +254 756 605 399</p>
-            <p>💬 +254 727 503 030</p>
+          {/* VISION */}
+          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+              🌍 Vision
+            </h3>
+
+            <p className='text-sm opacity-80 leading-relaxed'>
+              To become a global revival voice, impacting nations through media,
+              drawing people to Christ, and awakening the Church for the return
+              of Jesus.
+            </p>
           </div>
 
-          {/* RIGHT */}
-          <div className='space-y-2'>
-            <h3 className='text-yellow-500 font-bold mb-2'>Email & Web</h3>
-            <p>📧 jesusislord.fmradio@gmail.com</p>
-            <p>🌐 www.jesusislordradio.info</p>
+          {/* WHAT WE DO */}
+          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+              📡 What We Do
+            </h3>
+
+            <ul className='text-sm opacity-80 space-y-1 list-disc list-inside'>
+              <li>Live radio broadcasting</li>
+              <li>Revival meetings coverage</li>
+              <li>Teachings & sermons</li>
+              <li>Global outreach programs</li>
+            </ul>
           </div>
+        </div>
+
+        {/* QUOTE / SPIRITUAL EMPHASIS */}
+        <div className='mt-10 text-center'>
+          <p className='italic text-sm md:text-base text-primary dark:text-secondary'>
+            “Preparing the way for the coming of the Lord through the power of
+            the Gospel.”
+          </p>
         </div>
       </div>
     </section>
