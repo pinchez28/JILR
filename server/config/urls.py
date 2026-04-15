@@ -12,6 +12,8 @@ urlpatterns = [
     path('api/prophecies/', include('apps.prophecies.urls')),
     path('api/teachings/', include('apps.teachings.urls')),
     path('api/testimonies/', include('apps.testimonies.urls')),
+    path('api/programs/', include('apps.programs.urls')),
+    path('api/events/', include('apps.events.urls')),
 
 ]
 

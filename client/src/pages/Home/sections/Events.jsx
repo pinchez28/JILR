@@ -31,6 +31,8 @@ const Events = () => {
     );
   }
 
+  const isCentered = events.length > 0 && events.length <= 3;
+
   return (
     <section id='events' className='w-full mt-0'>
       {/* TITLE */}
@@ -38,54 +40,62 @@ const Events = () => {
         Events
       </h1>
 
-      {/* GRID */}
-      <div className='grid md:grid-cols-2 gap-6'>
+      {/* GRID WRAPPER */}
+      <div
+        className={`gap-6 ${
+          isCentered ? 'flex flex-wrap justify-center' : 'grid md:grid-cols-2'
+        }`}
+      >
         {events.map((e) => (
           <div
             key={e.id}
-            className='
-              bg-surface-light dark:bg-surface-dark
-              rounded-xl shadow-lg overflow-hidden
-              border border-accent-light dark:border-accent-dark
-              flex flex-col
-              animate-fadeIn
-            '
-          >
-            {/* ===================== */}
-            {/* 🖼️ POSTER */}
-            {/* ===================== */}
-            {e.poster && (
-              <div className='w-full h-64 md:h-72 overflow-hidden'>
-                <div className='w-full overflow-hidden md:h-72'>
-                  <img
-                    src={e.poster}
-                    alt={e.title}
-                    loading='lazy'
-                    className='w-full h-auto md:h-full md:object-cover object-contain'
-                  />
-                </div>
-              </div>
-            )}
+            className={`
+              p-[3px] rounded-xl
+              bg-gradient-to-r from-primary via-blueTheme to-secondary
+              bg-200 animate-borderGlow
 
-            {/* ===================== */}
-            {/* 📄 CONTENT */}
-            {/* ===================== */}
-            <div className='p-5 flex flex-col gap-3'>
+              ${isCentered ? 'w-full max-w-md' : 'w-full'}
+            `}
+          >
+            <div
+              className='
+                rounded-xl p-4 shadow-lg
+                bg-surface-light dark:bg-surface-dark
+                flex flex-col gap-3 h-full
+              '
+            >
+              {/* POSTER */}
+              {e.poster && (
+                <img
+                  src={eventsApi.getImageUrl(e.poster)}
+                  alt={e.title}
+                  className='w-full rounded-lg object-cover aspect-video'
+                />
+              )}
+
               {/* TITLE */}
               <h2 className='text-xl font-bold text-primary dark:text-secondary'>
                 {e.title}
               </h2>
 
               {/* LOCATION */}
-              <p className='text-sm opacity-80'>📍 {e.location}</p>
+              <p className='text-sm text-text-light dark:text-text-dark'>
+                📍 {e.location}
+              </p>
 
-              {/* DATE + DURATION */}
-              <p className='text-xs opacity-70'>
-                {e.start_date} → {e.end_date} ({e.duration} days)
+              {/* DATE RANGE */}
+              <p className='text-xs text-text-light dark:text-text-dark'>
+                📅 {new Date(e.start_date).toLocaleDateString()} →{' '}
+                {new Date(e.end_date).toLocaleDateString()}
+              </p>
+
+              {/* DURATION */}
+              <p className='text-xs text-text-light dark:text-text-dark'>
+                Duration: {e.duration} days
               </p>
 
               {/* DESCRIPTION */}
-              <p className='text-sm opacity-80 leading-relaxed'>
+              <p className='text-sm text-text-light dark:text-text-dark leading-relaxed'>
                 {e.description}
               </p>
             </div>
@@ -95,7 +105,9 @@ const Events = () => {
 
       {/* EMPTY STATE */}
       {events.length === 0 && !loading && (
-        <p className='text-center text-gray-400 mt-6'>No events found</p>
+        <p className='text-center text-text-light dark:text-text-dark mt-6'>
+          No events found
+        </p>
       )}
     </section>
   );

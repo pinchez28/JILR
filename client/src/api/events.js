@@ -1,7 +1,6 @@
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
-// ⚠️ your backend route is: /api/events/events/
-const BASE_URL = `${API_BASE}/events/events`;
+const BASE_URL = `${API_BASE}/events`;
 
 export const eventsApi = {
   // 📥 GET ALL EVENTS
@@ -26,11 +25,10 @@ export const eventsApi = {
     return res.json();
   },
 
-  // ⬇ POSTER URL HELPER (optional convenience)
-  getPosterUrl: (posterPath) => {
-    if (!posterPath) return null;
-    return posterPath.startsWith('http')
-      ? posterPath
-      : `${API_BASE}${posterPath}`;
+  // 🖼 IMAGE URL FIX (CLEAN + PRODUCTION SAFE)
+  getImageUrl: (imagePath) => {
+    if (!imagePath) return null;
+
+    return imagePath.startsWith('http') ? imagePath : `${API_BASE}${imagePath}`;
   },
 };

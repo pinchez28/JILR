@@ -28,7 +28,6 @@ const Prophesies = () => {
 
       setProphecies(list);
 
-      // ✅ pagination support
       const count = data?.count || 0;
       setTotalPages(Math.ceil(count / 10));
     } catch (err) {
@@ -42,7 +41,7 @@ const Prophesies = () => {
 
   if (loading) {
     return (
-      <p className='text-center text-secondary animate-fadeIn'>
+      <p className='text-center text-text-light dark:text-text-dark animate-fadeIn'>
         Loading prophecies...
       </p>
     );
@@ -58,7 +57,7 @@ const Prophesies = () => {
         {prophecies.map((p) => (
           <div key={p.id} className='relative'>
             {/* TIMELINE LINE */}
-            <div className='hidden md:block absolute left-1/2 top-0 h-full w-1 bg-gray-300 dark:bg-gray-700 transform -translate-x-1/2'></div>
+            <div className='hidden md:block absolute left-1/2 top-0 h-full w-1 bg-accent-light dark:bg-accent-dark transform -translate-x-1/2'></div>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch'>
               {/* PROPHECY */}
@@ -76,12 +75,14 @@ const Prophesies = () => {
                       {p.title}
                     </h2>
 
-                    <p className='text-xs opacity-70'>
+                    <p className='text-xs opacity-70 text-text-light dark:text-text-dark'>
                       {new Date(p.created_at).toLocaleString()}
                     </p>
 
                     {p.description && (
-                      <p className='text-sm mt-2 opacity-80'>{p.description}</p>
+                      <p className='text-sm mt-2 opacity-80 text-text-light dark:text-text-dark'>
+                        {p.description}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -97,22 +98,22 @@ const Prophesies = () => {
                     >
                       <VideoCard
                         src={f.fulfillment_media}
-                        title={f.title || 'Fulfillment'}
+                        title={'Fulfillment'}
                         downloadable
                         downloadUrl={prophecyApi.downloadFulfillment(f.id)}
                       />
 
                       <div>
-                        <h4 className='text-md font-bold text-green-500'>
-                          {f.title || 'Fulfillment'}
+                        <h4 className='text-md font-bold text-secondary'>
+                          {'Fulfillment'}
                         </h4>
 
-                        <p className='text-xs opacity-70'>
+                        <p className='text-xs opacity-70 text-text-light dark:text-text-dark'>
                           {new Date(f.created_at).toLocaleString()}
                         </p>
 
                         {f.description && (
-                          <p className='text-sm mt-2 opacity-80'>
+                          <p className='text-sm mt-2 opacity-80 text-text-light dark:text-text-dark'>
                             {f.description}
                           </p>
                         )}
@@ -120,7 +121,7 @@ const Prophesies = () => {
                     </div>
                   ))
                 ) : (
-                  <div className='flex flex-col justify-center items-center h-full text-gray-400 border border-dashed p-6 rounded-lg'>
+                  <div className='flex flex-col justify-center items-center h-full text-text-dark dark:text-text-dark border border-accent-light dark:border-accent-dark p-6 rounded-lg'>
                     Awaiting Fulfillment
                   </div>
                 )}
@@ -129,13 +130,13 @@ const Prophesies = () => {
 
             {/* MOBILE CONNECTOR */}
             <div className='md:hidden flex flex-col items-center mt-6'>
-              <div className='w-1 h-6 bg-gray-300 dark:bg-gray-700'></div>
+              <div className='w-1 h-6 bg-accent-light dark:bg-accent-dark'></div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* ✅ PAGINATION */}
+      {/* PAGINATION */}
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
     </section>
   );

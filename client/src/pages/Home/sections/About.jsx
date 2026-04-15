@@ -1,15 +1,4 @@
 const About = () => {
-  const scrollToTop = () => {
-    const nav = document.getElementById('navbar');
-
-    if (nav) {
-      const y =
-        nav.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight;
-
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
-
   return (
     <section id='about' className='w-full pb-12'>
       <div className='max-w-6xl mx-auto px-6'>
@@ -18,14 +7,15 @@ const About = () => {
           <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'>
             About the Ministry
           </h1>
-          <p className='text-sm opacity-70 mt-2'>
+
+          <p className='text-sm text-text-dark dark:text-text-dark mt-2'>
             Jesus Is Lord Radio – Spreading the Gospel to the Nations
           </p>
         </div>
 
         {/* HERO DESCRIPTION */}
         <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-6 mb-10 border border-accent-light dark:border-accent-dark'>
-          <p className='text-sm md:text-base leading-relaxed opacity-90'>
+          <p className='text-sm md:text-base leading-relaxed text-text-light dark:text-text-dark'>
             Jesus Is Lord Radio is a global Christian broadcasting ministry
             dedicated to spreading the Gospel of Jesus Christ to all nations.
             Through powerful teachings, live services, revival messages, and
@@ -42,7 +32,7 @@ const About = () => {
               🎯 Mission
             </h3>
 
-            <p className='text-sm opacity-80 leading-relaxed'>
+            <p className='text-sm text-text-light dark:text-text-dark leading-relaxed'>
               To preach holiness, righteousness, and repentance through
               broadcasting, reaching souls globally and preparing believers for
               the Kingdom of God.
@@ -55,7 +45,7 @@ const About = () => {
               🌍 Vision
             </h3>
 
-            <p className='text-sm opacity-80 leading-relaxed'>
+            <p className='text-sm text-text-light dark:text-text-dark leading-relaxed'>
               To become a global revival voice, impacting nations through media,
               drawing people to Christ, and awakening the Church for the return
               of Jesus.
@@ -68,7 +58,7 @@ const About = () => {
               📡 What We Do
             </h3>
 
-            <ul className='text-sm opacity-80 space-y-1 list-disc list-inside'>
+            <ul className='text-sm text-text-light dark:text-text-dark space-y-1 list-disc list-inside'>
               <li>Live radio broadcasting</li>
               <li>Revival meetings coverage</li>
               <li>Teachings & sermons</li>
@@ -77,9 +67,9 @@ const About = () => {
           </div>
         </div>
 
-        {/* QUOTE / SPIRITUAL EMPHASIS */}
+        {/* QUOTE */}
         <div className='mt-10 text-center'>
-          <p className='italic text-sm md:text-base text-primary dark:text-secondary'>
+          <p className='italic text-sm md:text-base text-primary dark:text-secondary font-extrabold'>
             “Preparing the way for the coming of the Lord through the power of
             the Gospel.”
           </p>
