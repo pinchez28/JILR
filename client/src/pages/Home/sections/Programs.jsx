@@ -77,7 +77,10 @@ const Programs = () => {
       <div className='max-w-6xl mx-auto px-6'>
         {/* TITLE */}
         <div className='text-center mb-10'>
-          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'>
+          <h1
+            id='programs-title'
+            className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'
+          >
             Weeky Programs
           </h1>
           <p className='text-sm text-text-dark dark:text-text-dark opacity-70 mt-2'>

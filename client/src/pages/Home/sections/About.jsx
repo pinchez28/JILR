@@ -4,7 +4,10 @@ const About = () => {
       <div className='max-w-6xl mx-auto px-6'>
         {/* TITLE */}
         <div className='text-center mb-10'>
-          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'>
+          <h1
+            id='about-title'
+            className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'
+          >
             About the Ministry
           </h1>
 

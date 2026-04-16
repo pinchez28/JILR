@@ -10,24 +10,22 @@ const request = async (url) => {
     throw new Error(error || 'Request failed');
   }
 
-  return res.json();
+  const data = await res.json();
+
+  // ALWAYS return array if possible
+  return Array.isArray(data) ? data : (data?.results ?? data);
 };
 
 export const prophecyApi = {
-  // 📝 GET ALL PROPHECIES
-  getAll: () => request(`${BASE_URL}/`),
+  getAll: (page = 1) => request(`${BASE_URL}/?page=${page}`),
 
-  // 🌀 GET SINGLE PROPHECY
   getById: (id) => request(`${BASE_URL}/${id}/`),
 
-  // ⚠️ OPTIONAL
   getFulfillments: (prophecyId) =>
     request(`${API_BASE}/prophecies/fulfillments/?prophecy=${prophecyId}`),
 
-  // ⬇ DOWNLOAD PROPHECY
   downloadProphecy: (id) => `${BASE_URL}/${id}/download/`,
 
-  // ✅ FIXED DOWNLOAD FULFILLMENT
   downloadFulfillment: (id) =>
     `${API_BASE}/prophecies/fulfillments/${id}/download/`,
 };

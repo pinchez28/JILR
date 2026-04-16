@@ -1,84 +1,71 @@
 import { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
 import logo from '../../assets/logo.png';
 import ThemeToggle from './ThemeToggle';
+import { scrollToSection } from '../../utils/scrollToSection';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState(null); // ✅ ADDED
 
-  const links = [
-    { id: 'home', label: 'Home' },
-    { id: 'gallery', label: 'Gallery' },
-    { id: 'prophecies', label: 'Prophecies' },
-    { id: 'teachings', label: 'Teachings' },
+  const navigate = useNavigate();
+
+  // ROUTE LINKS (pages)
+  const routeLinks = [
+    { to: '/', label: 'Home' },
+    { to: '/gallery', label: 'Gallery' },
+    { to: '/prophecies', label: 'Prophecies' },
+    { to: '/testimonies', label: 'Testimonies' },
+    { to: '/teachings', label: 'Teachings' },
+  ];
+
+  // SECTION LINKS (Home sections)
+  const sectionLinks = [
     { id: 'events', label: 'Events' },
-    { id: 'testimonies', label: 'Programs' },
-    { id: 'programs', label: 'Healings & Testimonies' },
-    { id: 'contact', label: 'Contact Us' },
+    { id: 'programs', label: 'Programs' },
+    { id: 'contacts', label: 'Contact Us' },
     { id: 'about', label: 'About' },
   ];
 
-  // Smooth scroll
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    const nav = document.getElementById('navbar');
-
-    if (el && nav) {
-      const y =
-        el.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight;
-
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth',
-      });
-    }
-
+  const handleSectionClick = (id) => {
     setIsOpen(false);
+    navigate('/');
+
+    setTimeout(() => {
+      scrollToSection(id);
+    }, 200);
   };
 
-  // Scroll spy (active section detection)
+  // ✅ SCROLL SPY (ADDED)
   useEffect(() => {
-    const handleScroll = () => {
-      const offset = 200; // adjust for navbar height
+    const sections = document.querySelectorAll('section[id]');
 
-      let closestSection = 'home';
-      let minDistance = Infinity;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.6 },
+    );
 
-      links.forEach((link) => {
-        const section = document.getElementById(link.id);
-        if (!section) return;
+    sections.forEach((section) => observer.observe(section));
 
-        const rect = section.getBoundingClientRect();
-
-        // distance from top of screen
-        const distance = Math.abs(rect.top - offset);
-
-        if (rect.top - offset <= 0 && distance < minDistance) {
-          minDistance = distance;
-          closestSection = link.id;
-        }
-      });
-
-      setActiveSection(closestSection);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <nav
-      id='navbar'
-      className='bg-[#0b1e3A] text-white w-full fixed top-0 left-0 z-50 shadow-lg'
-    >
-      {/* Desktop */}
+    <nav className='bg-[#0b1e3A] text-white w-full fixed top-0 left-0 z-50 shadow-lg'>
+      {/* ================= DESKTOP ================= */}
       <div className='hidden md:flex flex-col items-center py-4 px-6 space-y-6 max-w-6xl mx-auto'>
-        {/* Logo */}
+        {/* LOGO */}
         <div className='flex flex-col items-center text-center'>
-          <img src={logo} alt='Logo' className='h-16 md:h-20 lg:h-24 mb-2' />
+          <img src={logo} alt='Logo' className='h-6 md:h-10 lg:h-12 mb-2' />
           <h1 className='font-extrabold text-lg md:text-xl lg:text-2xl xl:text-3xl text-yellow-500'>
             JESUS IS LORD RADIO
           </h1>
@@ -87,16 +74,34 @@ const Navbar = () => {
           </p>
         </div>
 
-        {/* Links */}
-        <div className='flex justify-between w-full items-center text-sm md:text-base lg:text-lg'>
+        {/* LINKS */}
+        <div className='flex w-full items-center justify-center gap-10 text-sm md:text-base lg:text-lg'>
+          {/* ROUTE LINKS */}
           <div className='flex gap-6'>
-            {links.map((link) => (
+            {routeLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `relative font-extrabold transition ${
+                    isActive ? 'text-yellow-400' : 'hover:text-yellow-400'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
+
+          {/* SECTION LINKS (UPDATED) */}
+          <div className='flex gap-6'>
+            {sectionLinks.map((link) => (
               <button
                 key={link.id}
-                onClick={() => scrollToSection(link.id)}
+                onClick={() => handleSectionClick(link.id)}
                 className={`font-extrabold transition ${
                   activeSection === link.id
-                    ? 'text-yellow-400 underline'
+                    ? 'text-yellow-400'
                     : 'hover:text-yellow-400'
                 }`}
               >
@@ -109,7 +114,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Header */}
+      {/* ================= MOBILE HEADER ================= */}
       <div className='md:hidden flex items-center justify-between px-4 py-3'>
         <div className='flex items-center gap-2'>
           <img src={logo} alt='Logo' className='h-10' />
@@ -124,31 +129,61 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className='md:hidden bg-[#1D3A5F] flex flex-col items-center py-6 space-y-5'>
-          <img src={logo} alt='Logo' className='h-14' />
-          <h1 className='text-lg font-bold text-yellow-500'>
-            JESUS IS LORD RADIO
-          </h1>
+      {/* ================= MOBILE MENU ================= */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div
+              className='fixed inset-0 bg-black/50 md:hidden'
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+            />
 
-          <div className='flex flex-col gap-3 text-base'>
-            {links.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className={`transition ${
-                  activeSection === link.id
-                    ? 'text-yellow-400 font-bold underline'
-                    : 'hover:text-yellow-400'
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+            <motion.div
+              className='fixed top-0 right-0 w-[75%] h-full bg-[#1D3A5F] md:hidden z-50 flex flex-col items-center py-10 space-y-6'
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.3 }}
+            >
+              <img src={logo} alt='Logo' className='h-14' />
+
+              <h1 className='text-lg font-bold text-yellow-500'>
+                JESUS IS LORD RADIO
+              </h1>
+
+              {/* ROUTE LINKS */}
+              {routeLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setIsOpen(false)}
+                  className='text-lg hover:text-yellow-400'
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+
+              {/* SECTION LINKS (UPDATED) */}
+              {sectionLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => handleSectionClick(link.id)}
+                  className={`text-lg transition ${
+                    activeSection === link.id
+                      ? 'text-yellow-400'
+                      : 'hover:text-yellow-400'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

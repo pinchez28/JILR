@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { galleryApi } from '../../../api/gallery';
-import ImageCard from '../../../components/ui/media/ImageCard';
+import { galleryApi } from '../../api/gallery';
+import ImageCard from '../../components/ui/media/ImageCard';
 
 const Gallery = () => {
   const [items, setItems] = useState([]);
@@ -33,7 +33,6 @@ const Gallery = () => {
     }
   };
 
-  // ✅ FORCE DOWNLOAD (REAL DOWNLOAD, NOT OPEN)
   const handleDownload = async (imageUrl, filename = 'image.jpg') => {
     try {
       const res = await fetch(imageUrl);
@@ -56,20 +55,15 @@ const Gallery = () => {
   };
 
   return (
-    <section id='gallery' className='w-full'>
-      {/* TITLE */}
+    <main className='w-full px-4 py-10'>
       <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'>
         Gallery
       </h1>
 
-      {/* LOADING */}
       {loading && (
-        <p className='text-center text-secondary animate-fadeIn'>
-          Loading gallery...
-        </p>
+        <p className='text-center text-secondary'>Loading gallery...</p>
       )}
 
-      {/* GRID */}
       {!loading && (
         <div className='grid md:grid-cols-2 gap-6'>
           {items.map((item) => (
@@ -80,7 +74,6 @@ const Gallery = () => {
               title={item.title}
               description={item.description}
               downloadable={item.is_downloadable}
-              // ✅ ONLY DOWNLOAD IF ALLOWED
               onDownload={
                 item.is_downloadable
                   ? () =>
@@ -95,22 +88,12 @@ const Gallery = () => {
         </div>
       )}
 
-      {/* PAGINATION */}
       {!loading && totalPages > 1 && (
         <div className='flex justify-center items-center gap-4 mt-8'>
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}
-            className='
-              px-4 py-2 rounded-lg font-semibold
-              bg-surface-light dark:bg-surface-dark
-              text-text-light dark:text-text-dark
-              border border-accent-light dark:border-accent-dark
-              hover:bg-primary hover:text-white
-              dark:hover:bg-secondary dark:hover:text-black
-              transition
-              disabled:opacity-40 disabled:cursor-not-allowed
-            '
+            className='px-4 py-2 rounded-lg font-semibold disabled:opacity-40'
           >
             Prev
           </button>
@@ -122,22 +105,13 @@ const Gallery = () => {
           <button
             disabled={page >= totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className='
-              px-4 py-2 rounded-lg font-semibold
-              bg-surface-light dark:bg-surface-dark
-              text-text-light dark:text-text-dark
-              border border-accent-light dark:border-accent-dark
-              hover:bg-primary hover:text-white
-              dark:hover:bg-secondary dark:hover:text-black
-              transition
-              disabled:opacity-40 disabled:cursor-not-allowed
-            '
+            className='px-4 py-2 rounded-lg font-semibold disabled:opacity-40'
           >
             Next
           </button>
         </div>
       )}
-    </section>
+    </main>
   );
 };
 

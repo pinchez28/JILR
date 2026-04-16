@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getCachedData } from '../../../utils/apiCache.js';
 import { eventsApi } from '../../../api/events.js';
 
 const Events = () => {
@@ -34,9 +35,12 @@ const Events = () => {
   const isCentered = events.length > 0 && events.length <= 3;
 
   return (
-    <section id='events' className='w-full mt-0'>
+    <section id='events' className='w-full'>
       {/* TITLE */}
-      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'>
+      <h1
+        id='events-title'
+        className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'
+      >
         Events
       </h1>
 

@@ -12,11 +12,14 @@ const Contact = () => {
   };
 
   return (
-    <section id='contact' className='w-full py-10'>
+    <section id='contacts' className='w-full py-10'>
       <div className='max-w-6xl mx-auto px-6'>
         {/* TITLE */}
         <div className='text-center mb-10'>
-          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'>
+          <h1
+            id='contacts-title'
+            className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'
+          >
             Contact Us
           </h1>
 

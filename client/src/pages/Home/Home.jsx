@@ -1,27 +1,29 @@
-import About from './sections/About';
-import Contact from './sections/Contact';
-import Events from './sections/Events';
-import Gallery from './sections/Gallery';
-import Programs from './sections/Programs';
-import Prophecies from './sections/Prophecies';
-import Teachings from './sections/Teachings';
-import Testimonies from './sections/Testimonies';
 import HeroSection from './sections/HeroSection';
+import Events from './sections/Events';
+import Programs from './sections/Programs';
+import Contact from './sections/Contact';
+import About from './sections/About';
 
 const Home = () => {
   return (
-    <div className='min-h-screen bg-gradient-to-b from-[#0b1e3A] to-[#076aec]'>
-      {/* GLOBAL CONTENT WRAPPER (90% for all sections) */}
-      <div className='w-[90%] mx-auto space-y-6'>
-        <HeroSection />
-        <Gallery />
-        <Testimonies />
-        <Prophecies />
-        <Teachings />
-        <Events />
-        <Programs />
-        <Contact />
-        <About />
+    <div className='min-h-screen bg-gradient-to-b from-[#254575] to-[#076aec]'>
+      <HeroSection />
+      <div className='w-[90%] mx-auto'>
+        <div className='mt-2'>
+          <Events />
+        </div>
+
+        <div className='mt-8'>
+          <Programs />
+        </div>
+
+        <div className='mt-8'>
+          <Contact />
+        </div>
+
+        <div className='mt-8 pb-10'>
+          <About />
+        </div>
       </div>
     </div>
   );
