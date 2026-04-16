@@ -4,7 +4,7 @@ import { prophecyApi } from '../../api/prophecies';
 import MediaCard from '../../components/ui/media/MediaCard';
 import Pagination from '../../components/ui/Pagination';
 import SearchInput from '../../components/ui/SearchInput';
-import { TimelineDivider } from '../../components/ui/TimelineDivider';
+import { TimelineDivider } from '../../components/ui/timelineDivider'; // FIXED
 
 const Prophecies = () => {
   const [prophecies, setProphecies] = useState([]);
@@ -21,7 +21,7 @@ const Prophecies = () => {
     setLoading(true);
 
     try {
-      const data = await prophecyApi.getAll(page);
+      const data = await prophecyApi.getAll(page, search);
       const list = Array.isArray(data) ? data : [];
       setProphecies(list);
     } catch (err) {
@@ -32,53 +32,38 @@ const Prophecies = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <main className='w-full px-4 py-10'>
-        <p className='text-center text-text-light dark:text-text-dark'>
-          Loading prophecies...
-        </p>
-      </main>
-    );
-  }
-
   return (
     <main className='w-full px-4 py-10'>
-      {/* TITLE */}
       <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-10'>
         Prophecies
       </h1>
 
-      {/* SEARCH */}
       <SearchInput
         placeholder='Search prophecies...'
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(1);
+        }}
       />
 
-      {/* LIST */}
       <div className='flex flex-col gap-12 mt-8'>
         {prophecies.map((p, index) => (
           <div key={p.id} className='relative'>
-            {/* 🔥 DIVIDER PER ITEM (correct placement) */}
             <TimelineDivider isLast={index === prophecies.length - 1} />
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch'>
-              {/* PROPHECY SIDE */}
-              <div className='h-full'>
-                <MediaCard
-                  type={p.prophecy_type}
-                  src={p.prophecy_media}
-                  title={p.title}
-                  date={p.created_at}
-                  description={p.description}
-                  downloadable
-                  downloadUrl={prophecyApi.downloadProphecy(p.id)}
-                />
-              </div>
+              <MediaCard
+                type={p.prophecy_type}
+                src={p.prophecy_media}
+                title={p.title}
+                date={p.created_at}
+                description={p.description}
+                downloadable
+                downloadUrl={prophecyApi.downloadProphecy(p.id)}
+              />
 
-              {/* FULFILLMENT SIDE */}
-              <div className='h-full flex flex-col gap-6'>
+              <div className='flex flex-col gap-6'>
                 {p.fulfillments?.length > 0 ? (
                   p.fulfillments.map((f) => (
                     <MediaCard
@@ -93,8 +78,8 @@ const Prophecies = () => {
                     />
                   ))
                 ) : (
-                  <div className='flex items-center justify-center h-full p-6 rounded-xl border border-accent-light dark:border-accent-dark'>
-                    <h1 className='font-extrabold animate-pulse text-center'>
+                  <div className='flex items-center justify-center h-full p-6 rounded-xl border'>
+                    <h1 className='font-extrabold animate-pulse'>
                       Awaiting Fulfillment...
                     </h1>
                   </div>
@@ -105,7 +90,6 @@ const Prophecies = () => {
         ))}
       </div>
 
-      {/* PAGINATION */}
       <div className='mt-10'>
         <Pagination page={page} totalPages={1} onPageChange={setPage} />
       </div>
