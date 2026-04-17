@@ -13,6 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # MEDIA_URL = "/media/"
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -25,7 +27,12 @@ os.makedirs(RECORDINGS_DIR, exist_ok=True)
 # ----------------------------
 SECRET_KEY = config("SECRET_KEY", default="unsafe-dev-key")  # use .env in prod
 DEBUG = config("DEBUG", default=True, cast=bool)
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "jilr.vercel.app", "jesusislordradio.onrender.com"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    ".onrender.com",
+    "jilr.vercel.app",
+]
 
 # ----------------------------
 # Installed Apps
@@ -53,9 +60,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,3 +144,5 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://jilr.vercel.app",
 ]
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = True
