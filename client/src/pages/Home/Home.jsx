@@ -6,7 +6,7 @@ import About from './sections/About';
 
 const Home = () => {
   return (
-    <div className='min-h-screen bg-gradient-to-b from-[#254575] to-[#076aec]'>
+    <div className='min-h-screen bg-gradient-to-b from-[#254575] to-[#076aec] md:pt-0'>
       <HeroSection />
       <div className='w-[90%] mx-auto'>
         <div className='mt-2'>

@@ -72,7 +72,7 @@ const About = () => {
 
         {/* QUOTE */}
         <div className='mt-10 text-center'>
-          <p className='italic text-sm md:text-base text-primary dark:text-secondary font-extrabold'>
+          <p className='italic text-lg md:text-sm  text-text-dark dark:text-secondary font-extrabold'>
             “Preparing the way for the coming of the Lord through the power of
             the Gospel.”
           </p>
