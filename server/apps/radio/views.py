@@ -61,14 +61,19 @@ class StartRecordingView(APIView):
         if not config or not config.stream_url:
             return Response({"error": "Radio stream not configured"}, status=500)
 
+        import traceback
+
         try:
             process, filepath = start_recording_process(config.stream_url)
-        except FileNotFoundError:
-            return Response({
-                "error": "ffmpeg not found. Install and add to PATH."
-            }, status=500)
         except Exception as e:
-            return Response({"error": str(e)}, status=500)
+            traceback.print_exc()
+            return Response(
+                {
+                    "error": str(e),
+                    "type": type(e).__name__
+                },
+                status=500
+            )
 
         # Ensure process started
         time.sleep(1)

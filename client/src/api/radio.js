@@ -13,7 +13,11 @@ export const radioApi = {
       body: JSON.stringify({ session_id: sessionId }),
     });
 
-    if (!res.ok) throw new Error('Failed to start recording');
+    if (!res.ok) {
+      const error = await res.json();
+      console.log('RADIO ERROR:', error);
+      throw new Error(error.error || 'Failed to start recording');
+    }
     return res.json();
   },
 
