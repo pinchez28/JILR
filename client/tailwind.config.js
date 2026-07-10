@@ -11,42 +11,48 @@ export default {
       },
 
       colors: {
+        // 🎨 BRAND COLORS — matched to jesusislordradio.info
+        // Primary red extracted from the official JILR logo (#DB0000)
         primary: {
-          DEFAULT: '#7A0000',
-          light: '#9B1C1C',
-          dark: '#5A0000',
+          DEFAULT: '#DB0000', // Logo vibrant red
+          light: '#FF1A1A', // Brighter hover/active red
+          dark: '#B30000', // Darker red for pressed states
+          deeper: '#8B0000', // Deep red for gradients
         },
 
+        // Gold accent — complements the red for a ministerial feel
         secondary: {
-          DEFAULT: '#D4A017',
-          light: '#E6B84A',
-          dark: '#B78A12',
+          DEFAULT: '#D4A017', // Warm gold
+          light: '#E6B84A', // Light gold
+          dark: '#B78A12', // Dark gold
         },
 
+        // Blue tones — inspired by the header banner's deep sky
         blueTheme: {
-          DEFAULT: '#2563EB', // main blue
-          light: '#3B82F6',
-          dark: '#1E40AF',
+          DEFAULT: '#0131FF', // Rich royal blue (from header image)
+          light: '#3B82F6', // Bright blue
+          dark: '#00198F', // Deep navy blue
         },
 
+        // Background colors — reference site uses clean white
         background: {
-          light: '#2563EB', // ✅ light theme now uses blueTheme.DEFAULT
-          dark: '#0f172a', // dark theme
+          light: '#FFFFFF', // ✅ Clean white (like the reference site)
+          dark: '#0D1117', // Dark theme background
         },
 
         surface: {
-          light: '#f8fafc', // card backgrounds in light mode
-          dark: '#1e293b', // card backgrounds in dark mode
+          light: '#F5F5F5', // Card/section backgrounds in light mode
+          dark: '#1A1A1A', // Card backgrounds in dark mode
         },
 
         text: {
-          light: '#1e293b',
-          dark: '#f1f5f9',
+          light: '#1F2937', // Near-black for readability on white
+          dark: '#F9FAFB', // Near-white for readability on dark
         },
 
         accent: {
-          light: '#f1f5f9',
-          dark: '#334155',
+          light: '#F0F0F0', // Subtle accent borders/surfaces
+          dark: '#2A2A2A', // Subtle dark accent
         },
       },
 
