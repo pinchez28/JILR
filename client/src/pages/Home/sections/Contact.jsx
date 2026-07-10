@@ -16,14 +16,11 @@ const Contact = () => {
       <div className='max-w-6xl mx-auto px-6'>
         {/* TITLE */}
         <div className='text-center mb-10'>
-          <h1
-            id='contacts-title'
-            className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'
-          >
+          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline decoration-secondary/30 underline-offset-8'>
             Contact Us
           </h1>
 
-          <p className='text-sm text-text-dark dark:text-text-dark mt-2'>
+          <p className='text-sm text-text-light dark:text-text-dark mt-2 opacity-70'>
             Get in touch with Jesus Is Lord Radio Ministry
           </p>
         </div>
@@ -31,8 +28,8 @@ const Contact = () => {
         {/* GRID */}
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
           {/* LOCATION */}
-          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
-            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-gray-200 dark:border-gray-700'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3 text-lg'>
               📍 Physical Address
             </h3>
 
@@ -44,8 +41,8 @@ const Contact = () => {
           </div>
 
           {/* CONTACT NUMBERS */}
-          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
-            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-gray-200 dark:border-gray-700'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3 text-lg'>
               📞 Phone
             </h3>
 
@@ -63,8 +60,8 @@ const Contact = () => {
           </div>
 
           {/* EMAIL + WEBSITE */}
-          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
-            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-gray-200 dark:border-gray-700'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3 text-lg'>
               🌐 Online
             </h3>
 

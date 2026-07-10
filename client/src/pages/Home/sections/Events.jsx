@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getCachedData } from '../../../utils/apiCache.js';
 import { eventsApi } from '../../../api/events.js';
 
 const Events = () => {
@@ -26,9 +25,11 @@ const Events = () => {
 
   if (loading) {
     return (
-      <p className='text-center text-secondary animate-fadeIn'>
-        Loading events...
-      </p>
+      <section id='events' className='w-full'>
+        <p className='text-center text-secondary animate-fadeIn'>
+          Loading events...
+        </p>
+      </section>
     );
   }
 
@@ -37,10 +38,7 @@ const Events = () => {
   return (
     <section id='events' className='w-full'>
       {/* TITLE */}
-      <h1
-        id='events-title'
-        className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'
-      >
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline decoration-secondary/30 underline-offset-8 mb-6'>
         Events
       </h1>
 
@@ -53,30 +51,20 @@ const Events = () => {
         {events.map((e) => (
           <div
             key={e.id}
-            className={`
-              p-[3px] rounded-xl
-              bg-gradient-to-r from-primary via-blueTheme to-secondary
-              bg-200 animate-borderGlow
-
-              ${isCentered ? 'w-full max-w-md' : 'w-full'}
-            `}
+            className={`${
+              isCentered ? 'w-full max-w-md' : 'w-full'
+            } bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden`}
           >
-            <div
-              className='
-                rounded-xl p-4 shadow-lg
-                bg-surface-light dark:bg-surface-dark
-                flex flex-col gap-3 h-full
-              '
-            >
-              {/* POSTER */}
-              {e.poster && (
-                <img
-                  src={eventsApi.getImageUrl(e.poster)}
-                  alt={e.title}
-                  className='w-full rounded-lg object-cover aspect-video'
-                />
-              )}
+            {/* POSTER */}
+            {e.poster && (
+              <img
+                src={eventsApi.getImageUrl(e.poster)}
+                alt={e.title}
+                className='w-full object-cover aspect-video'
+              />
+            )}
 
+            <div className='p-4 flex flex-col gap-3'>
               {/* TITLE */}
               <h2 className='text-xl font-bold text-primary dark:text-secondary'>
                 {e.title}
@@ -88,13 +76,13 @@ const Events = () => {
               </p>
 
               {/* DATE RANGE */}
-              <p className='text-xs text-text-light dark:text-text-dark'>
+              <p className='text-xs text-text-light dark:text-text-dark opacity-70'>
                 📅 {new Date(e.start_date).toLocaleDateString()} →{' '}
                 {new Date(e.end_date).toLocaleDateString()}
               </p>
 
               {/* DURATION */}
-              <p className='text-xs text-text-light dark:text-text-dark'>
+              <p className='text-xs text-text-light dark:text-text-dark opacity-70'>
                 Duration: {e.duration} days
               </p>
 

@@ -18,7 +18,7 @@ const DownloadButton = ({ url, filename = 'file.mp4', children }) => {
     try {
       await downloadFile(url, filename);
 
-      Swal.close(); // close loading first
+      Swal.close();
 
       Swal.fire({
         position: 'top-end',
@@ -42,7 +42,7 @@ const DownloadButton = ({ url, filename = 'file.mp4', children }) => {
   return (
     <button
       onClick={handleClick}
-      className='px-4 py-2 rounded-lg bg-primary text-white hover:opacity-90 transition'
+      className='bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition text-sm'
     >
       {children || 'Download'}
     </button>

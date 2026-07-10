@@ -25,11 +25,11 @@ const HeroSection = () => {
           className='h-20 sm:h-24 md:h-28 mb-4'
         />
 
-        <h1 className='text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-light leading-tight'>
+        <h1 className='text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary leading-tight'>
           JESUS IS LORD RADIO
         </h1>
 
-        <p className='mt-3 sm:mt-4 max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl text-sm sm:text-base md:text-lg lg:text-xl text-text-dark'>
+        <p className='mt-3 sm:mt-4 max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl text-sm sm:text-base md:text-lg lg:text-xl text-white/80'>
           (Broadcasting Live From Nakuru, Kenya)
         </p>
       </div>

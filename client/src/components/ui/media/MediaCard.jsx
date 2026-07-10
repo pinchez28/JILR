@@ -8,22 +8,18 @@ const MediaCard = ({
   downloadUrl,
 }) => {
   return (
-    <div className='h-full flex flex-col rounded-xl overflow-hidden shadow-lg bg-surface-light dark:bg-surface-dark'>
+    <div className='h-full flex flex-col rounded-xl overflow-hidden shadow-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700'>
       {/* MEDIA (FIXED HEIGHT) */}
-      <div className='w-full h-52 md:h-60 bg-black/10 dark:bg-white/10'>
+      <div className='w-full h-52 md:h-60 bg-gray-100 dark:bg-gray-800'>
         {type === 'audio' ? (
-          <audio controls className='w-full h-full'>
-            <source src={src} />
-          </audio>
+          <audio controls src={src} className='w-full h-full object-cover' />
         ) : (
-          <video controls className='w-full h-full object-cover'>
-            <source src={src} />
-          </video>
+          <video controls src={src} className='w-full h-full object-cover' />
         )}
       </div>
 
       {/* CONTENT */}
-      <div className='flex flex-col flex-1 p-4'>
+      <div className='p-4 flex flex-col flex-1'>
         {title && (
           <h3 className='text-base font-semibold text-primary dark:text-secondary'>
             {title}
@@ -31,23 +27,25 @@ const MediaCard = ({
         )}
 
         {date && (
-          <p className='text-xs opacity-70 mt-1'>
+          <p className='text-xs text-text-light dark:text-text-dark opacity-70 mt-1'>
             {new Date(date).toLocaleString()}
           </p>
         )}
 
         {description && (
-          <p className='text-sm mt-2 opacity-80'>{description}</p>
+          <p className='text-sm text-text-light dark:text-text-dark mt-2 opacity-80 flex-1'>
+            {description}
+          </p>
         )}
 
         {/* PUSH DOWNLOAD DOWN */}
-        <div className='mt-auto pt-4'>
+        <div className='mt-auto pt-3'>
           {downloadable && downloadUrl && (
             <a
               href={downloadUrl}
               target='_blank'
               rel='noreferrer'
-              className='block text-center px-4 py-2 rounded-lg bg-primary text-white hover:opacity-90 transition'
+              className='inline-block text-center px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white hover:opacity-90 transition text-sm font-medium'
             >
               ⬇ Download
             </a>

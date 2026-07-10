@@ -6,7 +6,7 @@ import Footer from '../components/layout/Footer';
 
 const MainLayout = () => {
   return (
-    <div className='flex flex-col min-h-screen bg-gradient-to-b from-navy-gradient to-blueTheme-dark'>
+    <div className='flex flex-col min-h-screen bg-background-light dark:bg-background-dark'>
       <Navbar />
       <main
         id='main-content'

@@ -5,44 +5,32 @@ const VideoCard = ({ src, title, downloadUrl, downloadable = false }) => {
   };
 
   return (
-    <div
-      className='
-        p-[2px] rounded-xl
-        bg-gradient-to-r from-primary via-blueTheme to-secondary
-        bg-200 animate-borderGlow
-      '
-    >
-      <div
-        className='
-          p-3 rounded-xl shadow-lg
-          bg-surface-light dark:bg-surface-dark
-          flex flex-col gap-2
-        '
-      >
+    <div className='rounded-xl overflow-hidden shadow-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700'>
+      <div className='p-4'>
         {title && (
-          <h3 className='text-base font-semibold text-primary dark:text-secondary'>
+          <h3 className='text-base font-semibold text-primary dark:text-secondary mb-3'>
             {title}
           </h3>
         )}
 
-        {/* INCREASED VIDEO SIZE (~15%) */}
-        <video controls className='w-full rounded-lg h-52 md:h-60 object-cover'>
-          <source src={src} />
-        </video>
+        {/* VIDEO */}
+        <div className='w-full h-52 md:h-60 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center'>
+          <video
+            controls
+            src={src}
+            className='w-full h-full object-cover rounded-lg'
+          />
+        </div>
 
         {downloadable && downloadUrl && (
-          <button
-            onClick={handleDownload}
-            className='
-              mt-1 w-full px-4 py-2 rounded-lg font-semibold
-              bg-primary hover:bg-primary-dark
-              dark:bg-secondary dark:hover:bg-secondary-dark
-              text-white dark:text-black
-              transition
-            '
-          >
-            ⬇ Download
-          </button>
+          <div className='mt-3'>
+            <button
+              onClick={handleDownload}
+              className='bg-primary hover:bg-primary-dark dark:bg-secondary dark:hover:bg-secondary-dark text-white dark:text-black px-4 py-2 rounded-lg font-medium transition text-sm'
+            >
+              ⬇ Download
+            </button>
+          </div>
         )}
       </div>
     </div>

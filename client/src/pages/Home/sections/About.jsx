@@ -4,20 +4,17 @@ const About = () => {
       <div className='max-w-6xl mx-auto px-6'>
         {/* TITLE */}
         <div className='text-center mb-10'>
-          <h1
-            id='about-title'
-            className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'
-          >
+          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline decoration-secondary/30 underline-offset-8'>
             About the Ministry
           </h1>
 
-          <p className='text-sm text-text-dark dark:text-text-dark mt-2'>
+          <p className='text-sm text-text-light dark:text-text-dark mt-2 opacity-70'>
             Jesus Is Lord Radio – Spreading the Gospel to the Nations
           </p>
         </div>
 
         {/* HERO DESCRIPTION */}
-        <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-6 mb-10 border border-accent-light dark:border-accent-dark'>
+        <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-6 mb-10 border border-gray-200 dark:border-gray-700'>
           <p className='text-sm md:text-base leading-relaxed text-text-light dark:text-text-dark'>
             Jesus Is Lord Radio is a global Christian broadcasting ministry
             dedicated to spreading the Gospel of Jesus Christ to all nations.
@@ -30,8 +27,8 @@ const About = () => {
         {/* GRID SECTIONS */}
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
           {/* MISSION */}
-          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
-            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-gray-200 dark:border-gray-700'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3 text-lg'>
               🎯 Mission
             </h3>
 
@@ -43,8 +40,8 @@ const About = () => {
           </div>
 
           {/* VISION */}
-          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
-            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-gray-200 dark:border-gray-700'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3 text-lg'>
               🌍 Vision
             </h3>
 
@@ -56,15 +53,15 @@ const About = () => {
           </div>
 
           {/* WHAT WE DO */}
-          <div className='bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-accent-light dark:border-accent-dark'>
-            <h3 className='text-primary dark:text-secondary font-bold mb-3'>
+          <div className='bg-white dark:bg-surface-dark rounded-xl shadow-lg p-5 border border-gray-200 dark:border-gray-700'>
+            <h3 className='text-primary dark:text-secondary font-bold mb-3 text-lg'>
               📡 What We Do
             </h3>
 
             <ul className='text-sm text-text-light dark:text-text-dark space-y-1 list-disc list-inside'>
               <li>Live radio broadcasting</li>
               <li>Revival meetings coverage</li>
-              <li>Teachings & sermons</li>
+              <li>Teachings &amp; sermons</li>
               <li>Global outreach programs</li>
             </ul>
           </div>
@@ -72,9 +69,9 @@ const About = () => {
 
         {/* QUOTE */}
         <div className='mt-10 text-center'>
-          <p className='italic text-lg md:text-sm  text-text-dark dark:text-secondary font-extrabold'>
-            “Preparing the way for the coming of the Lord through the power of
-            the Gospel.”
+          <p className='italic text-lg md:text-xl text-text-light dark:text-secondary font-bold'>
+            &ldquo;Preparing the way for the coming of the Lord through the
+            power of the Gospel.&rdquo;
           </p>
         </div>
       </div>

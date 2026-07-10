@@ -55,8 +55,8 @@ const Gallery = () => {
   };
 
   return (
-    <main className='w-full px-4 py-10'>
-      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'>
+    <div className='max-w-6xl mx-auto px-6 py-10'>
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline decoration-secondary/30 underline-offset-8 mb-6'>
         Gallery
       </h1>
 
@@ -65,17 +65,17 @@ const Gallery = () => {
       )}
 
       {!loading && (
-        <div className='grid md:grid-cols-2 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {items.map((item) => (
             <ImageCard
               key={item.id}
               src={item.image}
-              alt={item.title}
               title={item.title}
               description={item.description}
-              downloadable={item.is_downloadable}
+              alt={item.title || 'gallery image'}
+              downloadable
               onDownload={
-                item.is_downloadable
+                item.image
                   ? () =>
                       handleDownload(
                         item.image,
@@ -91,27 +91,27 @@ const Gallery = () => {
       {!loading && totalPages > 1 && (
         <div className='flex justify-center items-center gap-4 mt-8'>
           <button
-            disabled={page === 1}
+            disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className='px-4 py-2 rounded-lg font-semibold disabled:opacity-40'
+            className='px-4 py-2 rounded-lg font-semibold bg-white dark:bg-surface-dark text-text-light dark:text-text-dark border border-gray-200 dark:border-gray-700 hover:bg-primary hover:text-white dark:hover:bg-secondary dark:hover:text-black transition disabled:opacity-40 disabled:cursor-not-allowed'
           >
             Prev
           </button>
 
-          <span className='text-secondary font-semibold'>
+          <span className='text-text-light dark:text-text-dark font-medium'>
             Page {page} of {totalPages}
           </span>
 
           <button
             disabled={page >= totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className='px-4 py-2 rounded-lg font-semibold disabled:opacity-40'
+            className='px-4 py-2 rounded-lg font-semibold bg-white dark:bg-surface-dark text-text-light dark:text-text-dark border border-gray-200 dark:border-gray-700 hover:bg-primary hover:text-white dark:hover:bg-secondary dark:hover:text-black transition disabled:opacity-40 disabled:cursor-not-allowed'
           >
             Next
           </button>
         </div>
       )}
-    </main>
+    </div>
   );
 };
 

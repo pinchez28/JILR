@@ -44,22 +44,21 @@ const Teachings = () => {
 
   if (loading) {
     return (
-      <main className='w-full px-4 py-10'>
+      <div className='max-w-6xl mx-auto px-6 py-10'>
         <p className='text-center text-secondary'>Loading teachings...</p>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className='w-full px-4 py-10'>
+    <div className='max-w-6xl mx-auto px-6 py-10'>
       {/* TITLE */}
-      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline mb-6'>
+      <h1 className='text-lg md:text-3xl font-extrabold text-secondary text-center uppercase underline decoration-secondary/30 underline-offset-8 mb-6'>
         Teachings
       </h1>
 
       {/* SEARCH */}
       <SearchInput
-        placeholder='Search teachings...'
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
@@ -75,24 +74,24 @@ const Teachings = () => {
       )}
 
       {/* GRID: 2 PER ROW */}
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 items-stretch'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         {teachings.map((t) => (
-          <div key={t.id} className='h-full'>
-            <MediaCard
-              type={t.media_type}
-              src={t.media_file}
-              title={t.title}
-              location={t.location}
-              downloadable={t.is_downloadable}
-              downloadUrl={teachingsApi.getDownloadUrl(t.id)}
-            />
-          </div>
+          <MediaCard
+            key={t.id}
+            type={t.file_type || 'video'}
+            src={t.file || t.audio_file || t.video_file}
+            title={t.title}
+            description={t.description}
+            date={t.created_at}
+            downloadable={t.is_downloadable}
+            downloadUrl={t.file}
+          />
         ))}
       </div>
 
       {/* PAGINATION */}
       {totalPages > 1 && (
-        <div className='mt-10'>
+        <div className='mt-8'>
           <Pagination
             page={page}
             totalPages={totalPages}
@@ -100,7 +99,7 @@ const Teachings = () => {
           />
         </div>
       )}
-    </main>
+    </div>
   );
 };
 

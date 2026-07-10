@@ -1,5 +1,3 @@
-// components/ui/media/ImageCard.jsx
-
 const ImageCard = ({
   src,
   title,
@@ -9,48 +7,32 @@ const ImageCard = ({
   onDownload,
 }) => {
   return (
-    <div
-      className='
-        p-[3px] rounded-xl
-        bg-gradient-to-r from-primary via-blueTheme to-secondary
-        bg-200 animate-borderGlow
-      '
-    >
-      <div
-        className='
-          rounded-xl p-4 shadow-lg
-          bg-surface-light dark:bg-surface-dark
-          flex flex-col gap-3
-        '
-      >
-        {/* 🖼 IMAGE FIRST */}
-        <img src={src} alt={alt} className='w-full rounded-lg object-cover' />
+    <div className='rounded-xl overflow-hidden shadow-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700'>
+      {/* IMAGE FIRST */}
+      <div className='w-full aspect-video bg-gray-100 dark:bg-gray-800'>
+        <img src={src} alt={alt} className='w-full h-full object-cover' />
+      </div>
 
-        {/* 📝 TITLE BELOW IMAGE */}
+      <div className='p-4'>
+        {/* TITLE BELOW IMAGE */}
         {title && (
           <h3 className='text-primary dark:text-secondary font-semibold text-lg'>
             {title}
           </h3>
         )}
 
-        {/* 📝 DESCRIPTION BELOW TITLE */}
+        {/* DESCRIPTION BELOW TITLE */}
         {description && (
-          <p className='text-sm text-text-light dark:text-text-dark opacity-80'>
+          <p className='text-sm text-text-light dark:text-text-dark opacity-80 mt-2'>
             {description}
           </p>
         )}
 
-        {/* ⬇ DOWNLOAD */}
+        {/* DOWNLOAD */}
         {downloadable && onDownload && (
           <button
             onClick={onDownload}
-            className='
-              mt-2 px-4 py-2 rounded-lg font-semibold
-              bg-primary hover:bg-primary-dark
-              dark:bg-secondary dark:hover:bg-secondary-dark
-              text-white dark:text-black
-              transition
-            '
+            className='mt-3 bg-primary hover:bg-primary-dark dark:bg-secondary dark:hover:bg-secondary-dark text-white dark:text-black px-4 py-2 rounded-lg font-medium transition text-sm'
           >
             ⬇ Download Image
           </button>

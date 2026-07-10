@@ -17,19 +17,16 @@ const Programs = () => {
     try {
       const data = await programsApi.getAll();
 
-      // 🔥 DEBUG (only in dev)
       if (import.meta.env.DEV) {
-        console.log('🔥 Programs API response:', data);
+        console.log('Programs API response:', data);
       }
 
-      // 🧠 Normalize API response (array OR paginated)
       const list = Array.isArray(data)
         ? data
         : Array.isArray(data?.results)
           ? data.results
           : [];
 
-      // 🧠 Sort: Monday → Sunday + time
       const dayOrder = [
         'Monday',
         'Tuesday',
@@ -51,7 +48,7 @@ const Programs = () => {
 
       setPrograms(list);
     } catch (err) {
-      console.error('❌ Failed to load programs:', err);
+      console.error('Failed to load programs:', err);
       setError('Failed to load programs. Please try again later.');
       setPrograms([]);
     } finally {
@@ -59,7 +56,6 @@ const Programs = () => {
     }
   };
 
-  // 🎯 Smart grid (auto-centers single card)
   const getGridClass = () => {
     if (programs.length === 1) {
       return 'grid grid-cols-1 place-items-center';
@@ -77,13 +73,10 @@ const Programs = () => {
       <div className='max-w-6xl mx-auto px-6'>
         {/* TITLE */}
         <div className='text-center mb-10'>
-          <h1
-            id='programs-title'
-            className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline'
-          >
-            Weeky Programs
+          <h1 className='text-lg md:text-3xl font-extrabold text-secondary uppercase underline decoration-secondary/30 underline-offset-8'>
+            Weekly Programs
           </h1>
-          <p className='text-sm text-text-dark dark:text-text-dark opacity-70 mt-2'>
+          <p className='text-sm text-text-light dark:text-text-dark opacity-70 mt-2'>
             Weekly broadcast schedule
           </p>
         </div>
@@ -97,7 +90,7 @@ const Programs = () => {
 
         {/* ERROR */}
         {error && (
-          <div className='text-center text-red-400 font-medium'>{error}</div>
+          <div className='text-center text-red-500 font-medium'>{error}</div>
         )}
 
         {/* GRID */}
@@ -106,14 +99,7 @@ const Programs = () => {
             {programs.map((p) => (
               <div
                 key={p.id}
-                className='
-                  w-full max-w-sm
-                  bg-surface-light dark:bg-surface-dark
-                  border border-accent-light dark:border-accent-dark
-                  rounded-xl shadow-lg
-                  p-5 flex flex-col gap-3
-                  hover:scale-[1.02] transition-transform duration-200
-                '
+                className='w-full max-w-sm bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-5 flex flex-col gap-3 hover:scale-[1.02] transition-transform duration-200'
               >
                 {/* TITLE */}
                 <h2 className='text-xl font-bold text-primary dark:text-secondary'>
@@ -147,14 +133,11 @@ const Programs = () => {
                 {/* STATUS */}
                 <div className='mt-auto'>
                   <span
-                    className={`
-                      text-xs px-3 py-1 rounded-full font-medium
-                      ${
-                        p.is_active
-                          ? 'bg-green-500 text-white'
-                          : 'bg-accent-light dark:bg-accent-dark text-text-light dark:text-text-dark'
-                      }
-                    `}
+                    className={`inline-block text-xs px-3 py-1 rounded-full font-medium ${
+                      p.is_active
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                        : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
+                    }`}
                   >
                     {p.is_active ? 'Active' : 'Inactive'}
                   </span>

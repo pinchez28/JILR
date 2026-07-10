@@ -6,24 +6,26 @@ const Breadcrumbs = () => {
   const paths = location.pathname.split('/').filter(Boolean);
 
   return (
-    <div className='text-sm text-gray-400 mb-4'>
-      <Link to='/' className='hover:text-yellow-400'>
+    <nav className='text-sm text-text-light dark:text-text-dark opacity-70 mb-4'>
+      <Link to='/' className='hover:text-secondary transition'>
         Home
       </Link>
-
       {paths.map((path, index) => {
         const route = '/' + paths.slice(0, index + 1).join('/');
 
         return (
-          <span key={route}>
+          <span key={path}>
             {' / '}
-            <Link to={route} className='hover:text-yellow-400 capitalize'>
+            <Link
+              to={route}
+              className='hover:text-secondary transition capitalize'
+            >
               {path}
             </Link>
           </span>
         );
       })}
-    </div>
+    </nav>
   );
 };
 
