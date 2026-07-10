@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 import logo from '../../assets/logo.png';
 import ThemeToggle from './ThemeToggle';
@@ -9,11 +9,10 @@ import { scrollToSection } from '../../utils/scrollToSection';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState(null); // ✅ ADDED
+  const [activeSection, setActiveSection] = useState(null);
 
   const navigate = useNavigate();
 
-  // ROUTE LINKS (pages)
   const routeLinks = [
     { to: '/', label: 'Home' },
     { to: '/gallery', label: 'Gallery' },
@@ -22,7 +21,6 @@ const Navbar = () => {
     { to: '/teachings', label: 'Teachings' },
   ];
 
-  // SECTION LINKS (Home sections)
   const sectionLinks = [
     { id: 'events', label: 'Events' },
     { id: 'programs', label: 'Programs' },
@@ -39,7 +37,6 @@ const Navbar = () => {
     }, 200);
   };
 
-  // ✅ SCROLL SPY (ADDED)
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]');
 
@@ -63,7 +60,6 @@ const Navbar = () => {
     <nav className='bg-navy text-white w-full fixed top-0 left-0 z-50 shadow-lg'>
       {/* ================= DESKTOP ================= */}
       <div className='hidden md:flex flex-col items-center py-4 px-6 space-y-6 max-w-6xl mx-auto'>
-        {/* LOGO */}
         <div className='flex flex-col items-center text-center'>
           <img src={logo} alt='Logo' className='h-6 md:h-10 lg:h-12 mb-2' />
           <h1 className='font-extrabold text-lg md:text-xl lg:text-2xl xl:text-3xl text-yellow-500'>
@@ -74,9 +70,7 @@ const Navbar = () => {
           </p>
         </div>
 
-        {/* LINKS */}
         <div className='flex w-full items-center justify-center gap-10 text-sm md:text-base lg:text-lg'>
-          {/* ROUTE LINKS */}
           <div className='flex gap-6'>
             {routeLinks.map((link) => (
               <NavLink
@@ -93,7 +87,6 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* SECTION LINKS (UPDATED) */}
           <div className='flex gap-6'>
             {sectionLinks.map((link) => (
               <button
@@ -133,28 +126,18 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.div
+            <div
               className='fixed inset-0 bg-black/50 md:hidden'
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
             />
 
-            <motion.div
-              className='fixed top-0 right-0 w-[75%] h-full bg-navy-light md:hidden z-50 flex flex-col items-center py-10 space-y-6'
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ duration: 0.3 }}
-            >
+            <div className='fixed top-0 right-0 w-[75%] h-full bg-navy-light md:hidden z-50 flex flex-col items-center py-10 space-y-6'>
               <img src={logo} alt='Logo' className='h-14' />
 
               <h1 className='text-lg font-bold text-yellow-500'>
                 JESUS IS LORD RADIO
               </h1>
 
-              {/* ROUTE LINKS */}
               {routeLinks.map((link) => (
                 <NavLink
                   key={link.to}
@@ -166,7 +149,6 @@ const Navbar = () => {
                 </NavLink>
               ))}
 
-              {/* SECTION LINKS (UPDATED) */}
               {sectionLinks.map((link) => (
                 <button
                   key={link.id}
@@ -180,7 +162,7 @@ const Navbar = () => {
                   {link.label}
                 </button>
               ))}
-            </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>
