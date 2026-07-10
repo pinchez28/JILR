@@ -17,7 +17,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className='bg-[#0b1e3A] text-white py-10  relative'>
+    <footer className='bg-navy text-white py-10 relative'>
       {/* 🔝 Scroll to top button */}
       <button
         onClick={scrollToTop}

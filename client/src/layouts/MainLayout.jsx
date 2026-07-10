@@ -6,13 +6,14 @@ import Footer from '../components/layout/Footer';
 
 const MainLayout = () => {
   return (
-    <div className='flex flex-col min-h-screen bg-gradient-to-b from-[#254575] to-[#076aec]'>
+    <div className='flex flex-col min-h-screen bg-gradient-to-b from-navy-gradient to-blueTheme-dark'>
       <Navbar />
-
-      <main className='flex-1 pt-20 sm:pt-24 md:pt-32 lg:pt-52'>
+      <main
+        id='main-content'
+        className='flex-1 pt-20 sm:pt-24 md:pt-32 lg:pt-52'
+      >
         <Outlet />
       </main>
-
       <RadioPlayer />
       <Footer />
     </div>

@@ -34,6 +34,13 @@ export default {
           dark: '#00198F', // Deep navy blue
         },
 
+        // 🌊 Navy family — dark blues for navbars, footers, and gradients
+        navy: {
+          DEFAULT: '#0b1e3A', // Dark navy (navbar, footer backgrounds)
+          light: '#1D3A5F', // Lighter navy (mobile menu drawer)
+          gradient: '#254575', // Gradient start for page background
+        },
+
         // Background colors — reference site uses clean white
         background: {
           light: '#FFFFFF', // ✅ Clean white (like the reference site)

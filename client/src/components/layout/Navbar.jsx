@@ -60,7 +60,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className='bg-[#0b1e3A] text-white w-full fixed top-0 left-0 z-50 shadow-lg'>
+    <nav className='bg-navy text-white w-full fixed top-0 left-0 z-50 shadow-lg'>
       {/* ================= DESKTOP ================= */}
       <div className='hidden md:flex flex-col items-center py-4 px-6 space-y-6 max-w-6xl mx-auto'>
         {/* LOGO */}
@@ -142,7 +142,7 @@ const Navbar = () => {
             />
 
             <motion.div
-              className='fixed top-0 right-0 w-[75%] h-full bg-[#1D3A5F] md:hidden z-50 flex flex-col items-center py-10 space-y-6'
+              className='fixed top-0 right-0 w-[75%] h-full bg-navy-light md:hidden z-50 flex flex-col items-center py-10 space-y-6'
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
